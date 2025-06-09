@@ -10,7 +10,6 @@ COPY package*.json ./
 RUN npm install
 
 COPY requirements.txt ./
-RUN pip3 install --upgrade pip
 RUN pip3 install --break-system-packages -r requirements.txt
 
 COPY . .
