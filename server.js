@@ -7,6 +7,8 @@ const path = require('path');
 const app = express();
 const upload = multer({ dest: 'uploads/' });
 
+app.use(express.static(path.join(__dirname, '.')));
+
 app.post('/convert', upload.single('image'), (req, res) => {
   const imagePath = req.file.path;
   const originalName = req.file.originalname;

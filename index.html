@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>圖片轉SVG上傳介面</title>
+  <style>
+    body { font-family: sans-serif; background: #f7f7f7; padding: 40px; }
+    .container { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; max-width: 400px; margin: auto; padding: 32px; }
+    h2 { text-align: center; }
+    input[type="file"] { margin-bottom: 16px; }
+    button { width: 100%; padding: 10px; background: #ff9900; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+    button:disabled { background: #ccc; }
+    .result { margin-top: 24px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>圖片轉SVG</h2>
+    <form id="uploadForm">
+      <input type="file" id="imageInput" name="image" accept="image/*" required>
+      <br>
+      <label>二值化閾值（可選）: <input type="number" id="threshold" name="threshold" min="0" max="255"></label>
+      <br><br>
+      <button type="submit">上傳並轉換</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
+  <script>
+    const form = document.getElementById('uploadForm');
+    const resultDiv = document.getElementById('result');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      resultDiv.innerHTML = '處理中...';
+
+      const fileInput = document.getElementById('imageInput');
+      const thresholdInput = document.getElementById('threshold');
+      if (!fileInput.files.length) return;
+
+      const formData = new FormData();
+      formData.append('image', fileInput.files[0]);
+      const threshold = thresholdInput.value;
+      let apiUrl = '/convert';
+      if (threshold) apiUrl += `?threshold=${threshold}`;
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          body: formData
+        });
+        if (!response.ok) throw new Error('伺服器錯誤');
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        // 自動下載
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'output.svg';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+
+        resultDiv.innerHTML = '轉換完成，SVG 已自動下載！';
+      } catch (err) {
+        resultDiv.innerHTML = '轉換失敗：' + err.message;
+      }
+    });
+  </script>
+</body>
+</html> 

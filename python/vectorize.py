@@ -42,8 +42,8 @@ def main():
     #img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
 
     # 4. 銳利化（Unsharp Mask）
-    gaussian = cv2.GaussianBlur(img, (0, 0), 3)
-    img = cv2.addWeighted(img, 1.2, gaussian, -0.2, 0)
+    #gaussian = cv2.GaussianBlur(img, (0, 0), 3)
+    #img = cv2.addWeighted(img, 1.2, gaussian, -0.2, 0)
 
     # 5. 色彩簡化（Posterize）
     #div = 64  # 4色
