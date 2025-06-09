@@ -13,7 +13,7 @@ app.post('/convert', upload.single('image'), (req, res) => {
 
   // 從請求中獲取參數，如果沒有則使用預設值
   const options = {
-    threshold: parseInt(req.query.threshold) || 64,
+    threshold: parseInt(req.query.threshold) || 32,
     turdsize: parseInt(req.query.turdsize) || 2,
     alphamax: parseFloat(req.query.alphamax) || 1,
     optcurve: req.query.optcurve !== 'true',
