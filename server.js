@@ -1,7 +1,8 @@
 const express = require('express');
 const multer = require('multer');
-const potrace = require('potrace');
+const { execFile } = require('child_process');
 const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
@@ -10,35 +11,26 @@ app.post('/convert', upload.single('image'), (req, res) => {
   const imagePath = req.file.path;
   const originalName = req.file.originalname;
   const fileName = originalName.split('.')[0] + '.svg';
+  const outputSvg = `uploads/${Date.now()}_output.svg`;
 
-  // 從請求中獲取參數，如果沒有則使用預設值
-  const options = {
-    threshold: parseInt(req.query.threshold) || 100,
-    turdsize: parseInt(req.query.turdsize) || 2,
-    alphamax: parseFloat(req.query.alphamax) || 1,
-    optcurve: req.query.optcurve !== 'true',
-    opttolerance: parseFloat(req.query.opttolerance) || 0.2,
-    blacklevel: parseFloat(req.query.blacklevel) || 0.5,
-    fillStrategy: req.query.fillStrategy || 'evenodd',
-    color: req.query.color || '#000000',
-    background: req.query.background || 'transparent'
-  };
-
-  potrace.trace(imagePath, options, (err, svg) => {
+  // 呼叫 Python 腳本進行多色向量化
+  execFile('python3', ['python/vectorize.py', imagePath, outputSvg], (error, stdout, stderr) => {
     fs.unlinkSync(imagePath); // 刪除暫存檔案
 
-    if (err) {
-      console.error(err);
-      return res.status(500).send('轉換失敗');
+    if (error) {
+      console.error(stderr);
+      return res.status(500).send('轉換失敗: ' + stderr);
     }
 
     res.setHeader('Content-Type', 'image/svg+xml');
     res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
-    res.send(svg);
+    fs.createReadStream(outputSvg)
+      .on('end', () => fs.unlinkSync(outputSvg))
+      .pipe(res);
   });
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server listening on port ${PORT}`);
 });
