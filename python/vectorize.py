@@ -29,12 +29,12 @@ def main():
     #img = cv2.GaussianBlur(img, (3, 3), 0)
 
     # 5. 銳化（Unsharp Mask）
-    #gaussian = cv2.GaussianBlur(img, (0, 0), 3)
-    #img = cv2.addWeighted(img, 1.5, gaussian, -0.5, 0)
+    gaussian = cv2.GaussianBlur(img, (0, 0), 3)
+    img = cv2.addWeighted(img, 1.5, gaussian, -0.5, 0)
 
     # 6. 邊緣增強（Laplacian）
-    #laplacian = cv2.Laplacian(img, cv2.CV_8U, ksize=3)
-    #img = cv2.addWeighted(img, 0.8, laplacian, 0.2, 0)
+    laplacian = cv2.Laplacian(img, cv2.CV_8U, ksize=3)
+    img = cv2.addWeighted(img, 0.8, laplacian, 0.2, 0)
 
     # 7. 自動反相（若背景為黑則反相）
     #mean_val = np.mean(img)
@@ -53,6 +53,9 @@ def main():
     bg_color = 255 if np.mean(corners) > 127 else 0
     if bg_color == 0:
         mask_img = cv2.bitwise_not(mask_img)
+
+    # 10. 上下翻轉，避免 SVG 鏡像
+    mask_img = cv2.flip(mask_img, 0)
 
     mask_path = 'mask_bin.pgm'
     svg_path = 'path_bin.svg'
