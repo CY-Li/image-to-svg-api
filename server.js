@@ -13,8 +13,13 @@ app.post('/convert', upload.single('image'), (req, res) => {
   const fileName = originalName.split('.')[0] + '.svg';
   const outputSvg = `uploads/${Date.now()}_output.svg`;
 
-  // 呼叫 Python 腳本進行多色向量化
-  execFile('python3', ['python/vectorize.py', imagePath, outputSvg], (error, stdout, stderr) => {
+  // 取得 threshold 參數
+  const threshold = req.query.threshold;
+  const args = ['python/vectorize.py', imagePath, outputSvg];
+  if (threshold) args.push(threshold);
+
+  // 呼叫 Python 腳本進行二值化向量化
+  execFile('python3', args, (error, stdout, stderr) => {
     fs.unlinkSync(imagePath); // 刪除暫存檔案
 
     if (error) {
