@@ -24,7 +24,7 @@ def main():
     for i, color in enumerate(center):
         mask = (label.flatten() == i).astype(np.uint8) * 255
         mask_img = mask.reshape((img.shape[0], img.shape[1]))
-        mask_path = f'mask_{i}.png'
+        mask_path = f'mask_{i}.pgm'
         svg_path = f'path_{i}.svg'
         cv2.imwrite(mask_path, mask_img)
         subprocess.run(['potrace', mask_path, '-s', '-o', svg_path], check=True)
