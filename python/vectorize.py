@@ -34,26 +34,26 @@ def main():
         alpha = mask
 
     # 2. 輕度降噪
-    img = cv2.fastNlMeansDenoisingColored(img, None, h=5, hColor=5, templateWindowSize=7, searchWindowSize=21)
+    #img = cv2.fastNlMeansDenoisingColored(img, None, h=5, hColor=5, templateWindowSize=7, searchWindowSize=21)
 
     # 3. 對比與亮度優化（微調）
-    img_yuv = cv2.cvtColor(img, cv2.COLOR_BGR2YUV)
-    img_yuv[:,:,0] = cv2.equalizeHist(img_yuv[:,:,0])
-    img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
+    #img_yuv = cv2.cvtColor(img, cv2.COLOR_BGR2YUV)
+    #img_yuv[:,:,0] = cv2.equalizeHist(img_yuv[:,:,0])
+    #img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
 
     # 4. 銳利化（Unsharp Mask）
-    gaussian = cv2.GaussianBlur(img, (0, 0), 3)
-    img = cv2.addWeighted(img, 1.2, gaussian, -0.2, 0)
+    #gaussian = cv2.GaussianBlur(img, (0, 0), 3)
+    #img = cv2.addWeighted(img, 1.2, gaussian, -0.2, 0)
 
     # 5. 色彩簡化（Posterize）
-    div = 64  # 4色
-    img = img // div * div + div // 2
+    #div = 64  # 4色
+    #img = img // div * div + div // 2
 
     # 6. 保持比例縮放（這裡假設不縮放，若需縮放可加參數）
     # img = cv2.resize(img, (new_w, new_h), interpolation=cv2.INTER_LANCZOS4)
 
     # 7. 檢查邊緣平滑度（自動：再做一次輕度降噪）
-    img = cv2.fastNlMeansDenoisingColored(img, None, h=3, hColor=3, templateWindowSize=7, searchWindowSize=21)
+    #img = cv2.fastNlMeansDenoisingColored(img, None, h=3, hColor=3, templateWindowSize=7, searchWindowSize=21)
 
     # 8. 合成 alpha，將背景設為白色
     bg = np.ones_like(img) * 255
