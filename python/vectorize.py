@@ -42,10 +42,10 @@ def main():
     #    img = cv2.bitwise_not(img)
 
     # 8. 二值化
-    #if threshold is not None:
-    #    _, mask_img = cv2.threshold(img, threshold, 255, cv2.THRESH_BINARY)
-    #else:
-    #    _, mask_img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    if threshold is not None:
+        _, mask_img = cv2.threshold(img, threshold, 255, cv2.THRESH_BINARY)
+    else:
+        _, mask_img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
     # 9. 自動去背
     h, w = mask_img.shape
