@@ -16,10 +16,21 @@ def main():
         except:
             threshold = None
 
-    # 讀取圖片並轉為灰階
+    # 1. 讀取圖片並轉為灰階
     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
 
-    # 二值化
+    # 2. 直方圖均衡化（自動對比度增強）
+    img = cv2.equalizeHist(img)
+
+    # 3. 高斯模糊（平滑雜訊）
+    img = cv2.GaussianBlur(img, (3, 3), 0)
+
+    # 4. 自動反相（若背景為黑則反相）
+    mean_val = np.mean(img)
+    if mean_val < 128:
+        img = cv2.bitwise_not(img)
+
+    # 5. 二值化
     if threshold is not None:
         _, mask_img = cv2.threshold(img, threshold, 255, cv2.THRESH_BINARY)
     else:
