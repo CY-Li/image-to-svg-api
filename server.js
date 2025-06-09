@@ -13,13 +13,13 @@ app.post('/convert', upload.single('image'), (req, res) => {
 
   // 從請求中獲取參數，如果沒有則使用預設值
   const options = {
-    threshold: parseInt(req.query.threshold) || 200,
+    threshold: parseInt(req.query.threshold) || 150,
     turdsize: parseInt(req.query.turdsize) || 2,
     alphamax: parseFloat(req.query.alphamax) || 1,
     optcurve: req.query.optcurve !== 'true',
     opttolerance: parseFloat(req.query.opttolerance) || 0.2,
     blacklevel: parseFloat(req.query.blacklevel) || 0.5,
-    fillStrategy: req.query.fillStrategy || 'nonzero',
+    fillStrategy: req.query.fillStrategy || 'evenodd',
     color: req.query.color || '#000000',
     background: req.query.background || 'transparent'
   };
