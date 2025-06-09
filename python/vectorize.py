@@ -20,32 +20,40 @@ def main():
     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
 
     # 2. 直方圖均衡化（自動對比度增強）
-    img = cv2.equalizeHist(img)
+    #img = cv2.equalizeHist(img)
 
     # 3. 降噪（Non-local Means Denoising）
-    img = cv2.fastNlMeansDenoising(img, None, h=10, templateWindowSize=7, searchWindowSize=21)
+    #img = cv2.fastNlMeansDenoising(img, None, h=10, templateWindowSize=7, searchWindowSize=21)
 
     # 4. 高斯模糊（平滑雜訊）
-    img = cv2.GaussianBlur(img, (3, 3), 0)
+    #img = cv2.GaussianBlur(img, (3, 3), 0)
 
     # 5. 銳化（Unsharp Mask）
-    gaussian = cv2.GaussianBlur(img, (0, 0), 3)
-    img = cv2.addWeighted(img, 1.5, gaussian, -0.5, 0)
+    #gaussian = cv2.GaussianBlur(img, (0, 0), 3)
+    #img = cv2.addWeighted(img, 1.5, gaussian, -0.5, 0)
 
     # 6. 邊緣增強（Laplacian）
-    laplacian = cv2.Laplacian(img, cv2.CV_8U, ksize=3)
-    img = cv2.addWeighted(img, 0.8, laplacian, 0.2, 0)
+    #laplacian = cv2.Laplacian(img, cv2.CV_8U, ksize=3)
+    #img = cv2.addWeighted(img, 0.8, laplacian, 0.2, 0)
 
     # 7. 自動反相（若背景為黑則反相）
-    mean_val = np.mean(img)
-    if mean_val < 128:
-        img = cv2.bitwise_not(img)
+    #mean_val = np.mean(img)
+    #if mean_val < 128:
+    #    img = cv2.bitwise_not(img)
 
     # 8. 二值化
     if threshold is not None:
         _, mask_img = cv2.threshold(img, threshold, 255, cv2.THRESH_BINARY)
     else:
         _, mask_img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    # 9. 自動去背
+    h, w = mask_img.shape
+    corners = [mask_img[0,0], mask_img[0,w-1], mask_img[h-1,0], mask_img[h-1,w-1]]
+    bg_color = 255 if np.mean(corners) > 127 else 0
+    if bg_color == 0:
+        mask_img = cv2.bitwise_not(mask_img)
+
     mask_path = 'mask_bin.pgm'
     svg_path = 'path_bin.svg'
     cv2.imwrite(mask_path, mask_img)
