@@ -53,7 +53,7 @@ def main():
     # img = cv2.resize(img, (new_w, new_h), interpolation=cv2.INTER_LANCZOS4)
 
     # 7. 檢查邊緣平滑度（自動：再做一次輕度降噪）
-    #img = cv2.fastNlMeansDenoisingColored(img, None, h=3, hColor=3, templateWindowSize=7, searchWindowSize=21)
+    img = cv2.fastNlMeansDenoisingColored(img, None, h=3, hColor=3, templateWindowSize=7, searchWindowSize=21)
 
     # 8. 合成 alpha，將背景設為白色
     bg = np.ones_like(img) * 255
