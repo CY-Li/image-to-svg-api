@@ -15,12 +15,29 @@ app.post('/convert', upload.single('image'), (req, res) => {
   const fileName = originalName.split('.')[0] + '.svg';
   const outputSvg = `uploads/${Date.now()}_output.svg`;
 
-  // 取得 threshold 參數
-  const threshold = req.query.threshold;
-  const args = ['python/vectorize.py', imagePath, outputSvg];
-  if (threshold) args.push(threshold);
+  // 取得所有參數（form-data）
+  const threshold = req.body.threshold || '';
+  const bgSensitivity = req.body.bgSensitivity || '';
+  const denoise = req.body.denoise || '';
+  const contrast = req.body.contrast || '';
+  const sharpen = req.body.sharpen || '';
+  const posterize = req.body.posterize || '';
+  const svgColor = req.body.svgColor || '';
 
-  // 呼叫 Python 腳本進行二值化向量化
+  // 傳遞所有參數給 vectorize.py
+  const args = [
+    'python/vectorize.py',
+    imagePath,
+    outputSvg,
+    threshold,
+    bgSensitivity,
+    denoise,
+    contrast,
+    sharpen,
+    posterize,
+    svgColor
+  ];
+
   execFile('python3', args, (error, stdout, stderr) => {
     fs.unlinkSync(imagePath); // 刪除暫存檔案
 

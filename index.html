@@ -2,46 +2,297 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>圖片轉SVG上傳介面</title>
+  <title>Free Image to SVG : 免費線上轉換工具 | 圖片轉SVG | LOGO向量化</title>
+  <meta name="description" content="免費線上圖片轉SVG工具，支援JPG、PNG、LOGO、插圖一鍵向量化，無需安裝，快速下載SVG檔案，適用於設計、網頁、印刷。">
+  <meta name="keywords" content="圖片轉SVG, image to svg, 線上向量化, logo svg, 免費工具, 向量圖, 圖片轉換, 圖片去背, svg 產生器, image vectorizer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="免費圖片轉SVG線上工具 | Free Image to SVG" />
+  <meta property="og:description" content="免費線上圖片轉SVG工具，支援JPG、PNG、LOGO、插圖一鍵向量化，快速下載SVG檔案。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://svg-converter.zeabur.app/" />
+  <meta property="og:image" content="https://svg-converter.zeabur.app/og-image.png" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <!-- Google Fonts & Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <style>
-    body { font-family: sans-serif; background: #f7f7f7; padding: 40px; }
-    .container { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; max-width: 400px; margin: auto; padding: 32px; }
-    h2 { text-align: center; }
-    input[type="file"] { margin-bottom: 16px; }
-    button { width: 100%; padding: 10px; background: #ff9900; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
-    button:disabled { background: #ccc; }
-    .result { margin-top: 24px; text-align: center; }
+    .md-input, .md-btn {
+      box-sizing: border-box;
+      width: 100%;
+    }
+    body {
+      font-family: 'Roboto', 'Noto Sans TC', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px #0002;
+      max-width: 420px;
+      width: 100%;
+      padding: 40px 32px 32px 32px;
+      margin: 32px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    h1, h2 {
+      text-align: center;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+    .md-label {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 6px;
+      display: block;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .md-input {
+      padding: 14px 12px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      background: #fafafa;
+      margin-bottom: 0;
+      transition: border-color 0.2s, background 0.2s;
+      outline: none;
+      margin-top: 0;
+      appearance: none;
+    }
+    .md-input:focus {
+      border-color: #ff9800;
+      background: #fff;
+    }
+    .form-group {
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .form-group:last-of-type {
+      margin-bottom: 36px;
+    }
+    .md-btn {
+      padding: 13px 0;
+      background: #ff9800;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #ff980033;
+      transition: background 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 0;
+    }
+    .md-btn:disabled {
+      background: #e0e0e0;
+      color: #aaa;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+    .result {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 15px;
+      color: #333;
+      min-height: 24px;
+      padding: 6px 0 0 0;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+      font-size: 22px;
+    }
+    .success {
+      color: #388e3c;
+    }
+    .error {
+      color: #d32f2f;
+    }
+    @media (max-width: 500px) {
+      .container { padding: 18px 2vw; }
+      h2 { font-size: 20px; }
+      .md-btn { font-size: 15px; }
+      .md-input { font-size: 15px; }
+    }
+    .md-icon {
+      font-size: 2.1em;
+      color: #ff9800;
+      vertical-align: middle;
+      margin: 0 2px 4px 2px;
+    }
+    .md-arrow {
+      font-size: 2em;
+      color: #888;
+      vertical-align: middle;
+      margin: 0 2px 4px 2px;
+    }
+    .tip {
+      display: inline-block;
+      background: #fff3e0;
+      color: #ff9800;
+      border-radius: 50%;
+      width: 1em;
+      height: 1em;
+      text-align: center;
+      font-size: 0.95em;
+      cursor: pointer;
+      margin-left: 4px;
+      font-weight: bold;
+      line-height: 1em;
+      border: 1.5px solid #ff9800;
+      vertical-align: middle;
+      transition: background 0.2s, color 0.2s, border 0.2s;
+      user-select: none;
+    }
+    .tip:focus, .tip:active {
+      outline: 2px solid #ff9800;
+      background: #fff3e0;
+      color: #ff9800;
+      border: 1.5px solid #ff9800;
+    }
+    .custom-tooltip {
+      position: absolute;
+      z-index: 1000;
+      background: #fffbe7;
+      color: #333;
+      border: 1px solid #ff9800;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 14px;
+      box-shadow: 0 2px 8px #ff980033;
+      white-space: pre-line;
+      max-width: 360px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    select.md-input {
+      padding-right: 32px;
+      background: #fafafa url('data:image/svg+xml;utf8,<svg fill="%23ff9800" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center/18px 18px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>圖片轉SVG</h2>
-    <form id="uploadForm">
-      <input type="file" id="imageInput" name="image" accept="image/*" required>
-      <br>
-      <label>二值化閾值（可選）: <input type="number" id="threshold" name="threshold" min="0" max="255"></label>
-      <br><br>
-      <button type="submit">上傳並轉換</button>
+    <h1 style="display:none;">免費圖片轉SVG線上工具</h1>
+    <h2>
+      <span class="material-symbols-outlined md-icon" aria-label="圖片圖示">image</span>
+      將圖片轉換為.svg格式
+    </h2>
+    <form id="uploadForm" aria-label="圖片轉SVG上傳表單">
+      <div class="form-group">
+        <label class="md-label" for="imageInput">選擇圖片檔案</label>
+        <input type="file" class="md-input" id="imageInput" name="image" accept="image/*" required aria-required="true" aria-label="選擇圖片檔案">
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="bgSensitivity">
+          去背靈敏度
+          <span class="tip" tabindex="0" data-tooltip="用途：調整背景與主體顏色差多少才算背景
+建議：30（數值越大越寬鬆，主體顏色接近背景時可調小）">!</span>
+        </label>
+        <input type="number" class="md-input" id="bgSensitivity" name="bgSensitivity" min="5" max="100" value="30">
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="denoise">
+          降噪強度
+          <span class="tip" tabindex="0" data-tooltip="用途：控制降噪的強度，數值越大越平滑
+建議：5~10，過大會失去細節">!</span>
+        </label>
+        <input type="number" class="md-input" id="denoise" name="denoise" min="1" max="20" value="5">
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="contrast">
+          啟用亮度/對比優化
+          <span class="tip" tabindex="0" data-tooltip="用途：讓主體更明顯
+建議：預設開啟，若圖片本身對比已佳可關閉">!</span>
+        </label>
+        <select class="md-input" id="contrast" name="contrast">
+          <option value="on" selected>開啟</option>
+          <option value="off">關閉</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="sharpen">
+          銳利化強度
+          <span class="tip" tabindex="0" data-tooltip="用途：讓輪廓更清楚
+建議：1.2~1.5，過大會產生雜訊">!</span>
+        </label>
+        <input type="number" class="md-input" id="sharpen" name="sharpen" min="1" max="2" step="0.1" value="1.2">
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="posterize">
+          色彩簡化色階
+          <span class="tip" tabindex="0" data-tooltip="用途：控制色彩簡化的程度
+建議：64=4色，32=8色，16=16色">!</span>
+        </label>
+        <input type="number" class="md-input" id="posterize" name="posterize" min="2" max="128" step="1" value="64">
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="threshold">
+          二值化閾值
+          <span class="tip" tabindex="0" data-tooltip="用途：自動/手動指定二值化的臨界值
+建議：留空自動，或0~255">!</span>
+        </label>
+        <input type="number" class="md-input" id="threshold" name="threshold" min="0" max="255" placeholder="自動">
+      </div>
+      <div class="form-group">
+        <label class="md-label" for="svgColor">
+          主體顏色
+          <span class="tip" tabindex="0" data-tooltip="用途：設定SVG主體顏色
+建議：#000000（黑色）或自訂">!</span>
+        </label>
+        <input type="color" class="md-input" id="svgColor" name="svgColor" value="#000000">
+      </div>
+      <button type="submit" class="md-btn" aria-label="上傳並轉換"><span class="material-symbols-outlined">upload</span> 上傳並轉換</button>
     </form>
-    <div class="result" id="result"></div>
+    <div class="result" id="result" aria-live="polite"></div>
   </div>
   <script>
     const form = document.getElementById('uploadForm');
     const resultDiv = document.getElementById('result');
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
-      resultDiv.innerHTML = '處理中...';
+      resultDiv.innerHTML = '<span class="material-symbols-outlined">hourglass_top</span> 處理中...';
 
       const fileInput = document.getElementById('imageInput');
-      const thresholdInput = document.getElementById('threshold');
       if (!fileInput.files.length) return;
 
       const formData = new FormData();
       formData.append('image', fileInput.files[0]);
-      const threshold = thresholdInput.value;
-      let apiUrl = '/convert';
-      if (threshold) apiUrl += `?threshold=${threshold}`;
+      formData.append('bgSensitivity', document.getElementById('bgSensitivity').value);
+      formData.append('denoise', document.getElementById('denoise').value);
+      formData.append('contrast', document.getElementById('contrast').value);
+      formData.append('sharpen', document.getElementById('sharpen').value);
+      formData.append('posterize', document.getElementById('posterize').value);
+      formData.append('threshold', document.getElementById('threshold').value);
+      formData.append('svgColor', document.getElementById('svgColor').value);
 
+      let apiUrl = '/convert';
       try {
         const response = await fetch(apiUrl, {
           method: 'POST',
@@ -60,10 +311,42 @@
         a.remove();
         window.URL.revokeObjectURL(url);
 
-        resultDiv.innerHTML = '轉換完成，SVG 已自動下載！';
+        resultDiv.innerHTML = '<span class="material-symbols-outlined success">check_circle</span> 轉換完成，SVG 已自動下載！';
       } catch (err) {
-        resultDiv.innerHTML = '轉換失敗：' + err.message;
+        resultDiv.innerHTML = '<span class="material-symbols-outlined error">error</span> 轉換失敗：' + err.message;
       }
+    });
+
+    // Material Design 3 風格自訂tooltip
+    function showTooltip(e) {
+      let tip = e.target;
+      let text = tip.getAttribute('data-tooltip');
+      if (!text) return;
+      let tooltip = document.createElement('div');
+      tooltip.className = 'custom-tooltip';
+      tooltip.innerHTML = text.replace(/\n/g, '<br>');
+      document.body.appendChild(tooltip);
+      const rect = tip.getBoundingClientRect();
+      tooltip.style.left = (rect.left + window.scrollX + rect.width + 8) + 'px';
+      tooltip.style.top = (rect.top + window.scrollY - 4) + 'px';
+      tooltip.style.opacity = 1;
+      tip._tooltip = tooltip;
+    }
+    function hideTooltip(e) {
+      let tip = e.target;
+      if (tip._tooltip) {
+        tip._tooltip.style.opacity = 0;
+        setTimeout(() => tip._tooltip && tip._tooltip.remove(), 150);
+        tip._tooltip = null;
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.tip').forEach(tip => {
+        tip.addEventListener('mouseenter', showTooltip);
+        tip.addEventListener('mouseleave', hideTooltip);
+        tip.addEventListener('focus', showTooltip);
+        tip.addEventListener('blur', hideTooltip);
+      });
     });
   </script>
 </body>

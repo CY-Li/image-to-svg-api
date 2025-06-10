@@ -5,24 +5,26 @@ import subprocess
 import os
 import re
 
-def remove_background(img):
+def remove_background(img, sensitivity=30):
     h, w = img.shape[:2]
     corners = np.array([img[0,0], img[0,w-1], img[h-1,0], img[h-1,w-1]])
     bg_color = np.mean(corners, axis=0)
     diff = np.linalg.norm(img - bg_color, axis=2)
-    mask = (diff > 30).astype(np.uint8) * 255
+    mask = (diff > sensitivity).astype(np.uint8) * 255
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((5,5), np.uint8))
     return mask
 
 def main():
     img_path = sys.argv[1]
     output_svg = sys.argv[2]
-    threshold = None
-    if len(sys.argv) > 3:
-        try:
-            threshold = int(sys.argv[3])
-        except:
-            threshold = None
+    # 依序取得所有參數
+    threshold = int(sys.argv[3]) if len(sys.argv) > 3 and sys.argv[3] else None
+    bgSensitivity = int(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4] else 30
+    denoise = int(sys.argv[5]) if len(sys.argv) > 5 and sys.argv[5] else 5
+    contrast = sys.argv[6] if len(sys.argv) > 6 and sys.argv[6] else 'on'
+    sharpen = float(sys.argv[7]) if len(sys.argv) > 7 and sys.argv[7] else 1.2
+    posterize = int(sys.argv[8]) if len(sys.argv) > 8 and sys.argv[8] else 64
+    svgColor = sys.argv[9] if len(sys.argv) > 9 and sys.argv[9] else '#000000'
 
     # 1. 讀取原圖
     img = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
@@ -30,27 +32,27 @@ def main():
         alpha = img[:,:,3]
         img = img[:,:,:3]
     else:
-        mask = remove_background(img)
+        mask = remove_background(img, bgSensitivity)
         alpha = mask
 
     # 2. 輕度降噪
-    #img = cv2.fastNlMeansDenoisingColored(img, None, h=5, hColor=5, templateWindowSize=7, searchWindowSize=21)
+    img = cv2.fastNlMeansDenoisingColored(img, None, h=denoise, hColor=denoise, templateWindowSize=7, searchWindowSize=21)
 
     # 3. 對比與亮度優化（微調）
-    #img_yuv = cv2.cvtColor(img, cv2.COLOR_BGR2YUV)
-    #img_yuv[:,:,0] = cv2.equalizeHist(img_yuv[:,:,0])
-    #img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
+    if contrast == 'on':
+        img_yuv = cv2.cvtColor(img, cv2.COLOR_BGR2YUV)
+        img_yuv[:,:,0] = cv2.equalizeHist(img_yuv[:,:,0])
+        img = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
 
     # 4. 銳利化（Unsharp Mask）
-    #gaussian = cv2.GaussianBlur(img, (0, 0), 3)
-    #img = cv2.addWeighted(img, 1.2, gaussian, -0.2, 0)
+    gaussian = cv2.GaussianBlur(img, (0, 0), 3)
+    img = cv2.addWeighted(img, sharpen, gaussian, -(sharpen-1), 0)
 
     # 5. 色彩簡化（Posterize）
-    #div = 64  # 4色
-    #img = img // div * div + div // 2
+    img = img // posterize * posterize + posterize // 2
 
     # 6. 保持比例縮放（這裡假設不縮放，若需縮放可加參數）
-    # img = cv2.resize(img, (new_w, new_h), interpolation=cv2.INTER_LANCZOS4)
+    # img = cv2.resize(img, (1024, 1024), interpolation=cv2.INTER_LANCZOS4)
 
     # 7. 檢查邊緣平滑度（自動：再做一次輕度降噪）
     img = cv2.fastNlMeansDenoisingColored(img, None, h=3, hColor=3, templateWindowSize=7, searchWindowSize=21)
@@ -80,7 +82,7 @@ def main():
     with open(svg_path, 'r', encoding='utf-8') as f:
         svg_content = f.read()
     paths = re.findall(r'<path[^>]+/>', svg_content)
-    color_hex = '#000000'
+    color_hex = svgColor
     svg_paths = []
     for p in paths:
         if 'fill=' in p:
