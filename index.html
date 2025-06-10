@@ -195,6 +195,48 @@
       -moz-appearance: none;
       appearance: none;
     }
+    .collapsible {
+      border: none;
+      background: none;
+      width: 100%;
+      padding: 0;
+      margin: 0 0 18px 0;
+    }
+    .collapsible summary {
+      font-size: 17px;
+      font-weight: 700;
+      color: #ff9800;
+      border-radius: 8px;
+      padding: 12px 18px;
+      cursor: pointer;
+      outline: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      user-select: none;
+    }
+    .collapsible[open] summary {
+      background: #fff3e0;
+      color: #d17b00;
+    }
+    .collapsible summary::-webkit-details-marker {
+      display: none;
+    }
+    .collapsible .arrow {
+      display: inline-block;
+      transition: transform 0.2s;
+      font-size: 1.2em;
+      color: #ff9800;
+    }
+    .collapsible[open] .arrow {
+      transform: rotate(90deg);
+    }
+    .collapsible-content {
+      padding: 18px 0 0 0;
+      border-radius: 0 0 8px 8px;
+      background: none;
+    }
   </style>
 </head>
 <body>
@@ -209,65 +251,70 @@
         <label class="md-label" for="imageInput">選擇圖片檔案</label>
         <input type="file" class="md-input" id="imageInput" name="image" accept="image/*" required aria-required="true" aria-label="選擇圖片檔案">
       </div>
-      <div class="form-group">
-        <label class="md-label" for="bgSensitivity">
-          去背靈敏度
-          <span class="tip" tabindex="0" data-tooltip="用途：調整背景與主體顏色差多少才算背景
+      <details class="collapsible" id="paramsCollapse">
+        <summary><span class="arrow">→</span>調整影像輸出參數</summary>
+        <div class="collapsible-content">
+          <div class="form-group">
+            <label class="md-label" for="bgSensitivity">
+              去背靈敏度
+              <span class="tip" tabindex="0" data-tooltip="用途：調整背景與主體顏色差多少才算背景
 建議：30（數值越大越寬鬆，主體顏色接近背景時可調小）">!</span>
-        </label>
-        <input type="number" class="md-input" id="bgSensitivity" name="bgSensitivity" min="5" max="100" value="30">
-      </div>
-      <div class="form-group">
-        <label class="md-label" for="denoise">
-          降噪強度
-          <span class="tip" tabindex="0" data-tooltip="用途：控制降噪的強度，數值越大越平滑
+            </label>
+            <input type="number" class="md-input" id="bgSensitivity" name="bgSensitivity" min="5" max="100" value="30">
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="denoise">
+              降噪強度
+              <span class="tip" tabindex="0" data-tooltip="用途：控制降噪的強度，數值越大越平滑
 建議：5~10，過大會失去細節">!</span>
-        </label>
-        <input type="number" class="md-input" id="denoise" name="denoise" min="1" max="20" value="5">
-      </div>
-      <div class="form-group">
-        <label class="md-label" for="contrast">
-          啟用亮度/對比優化
-          <span class="tip" tabindex="0" data-tooltip="用途：讓主體更明顯
+            </label>
+            <input type="number" class="md-input" id="denoise" name="denoise" min="1" max="20" value="5">
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="contrast">
+              啟用亮度/對比優化
+              <span class="tip" tabindex="0" data-tooltip="用途：讓主體更明顯
 建議：預設開啟，若圖片本身對比已佳可關閉">!</span>
-        </label>
-        <select class="md-input" id="contrast" name="contrast">
-          <option value="on" selected>開啟</option>
-          <option value="off">關閉</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="md-label" for="sharpen">
-          銳利化強度
-          <span class="tip" tabindex="0" data-tooltip="用途：讓輪廓更清楚
+            </label>
+            <select class="md-input" id="contrast" name="contrast">
+              <option value="on" selected>開啟</option>
+              <option value="off">關閉</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="sharpen">
+              銳利化強度
+              <span class="tip" tabindex="0" data-tooltip="用途：讓輪廓更清楚
 建議：1.2~1.5，過大會產生雜訊">!</span>
-        </label>
-        <input type="number" class="md-input" id="sharpen" name="sharpen" min="1" max="2" step="0.1" value="1.2">
-      </div>
-      <div class="form-group">
-        <label class="md-label" for="posterize">
-          色彩簡化色階
-          <span class="tip" tabindex="0" data-tooltip="用途：控制色彩簡化的程度
+            </label>
+            <input type="number" class="md-input" id="sharpen" name="sharpen" min="1" max="2" step="0.1" value="1.2">
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="posterize">
+              色彩簡化色階
+              <span class="tip" tabindex="0" data-tooltip="用途：控制色彩簡化的程度
 建議：64=4色，32=8色，16=16色">!</span>
-        </label>
-        <input type="number" class="md-input" id="posterize" name="posterize" min="2" max="128" step="1" value="64">
-      </div>
-      <div class="form-group">
-        <label class="md-label" for="threshold">
-          二值化閾值
-          <span class="tip" tabindex="0" data-tooltip="用途：自動/手動指定二值化的臨界值
+            </label>
+            <input type="number" class="md-input" id="posterize" name="posterize" min="2" max="128" step="1" value="64">
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="threshold">
+              二值化閾值
+              <span class="tip" tabindex="0" data-tooltip="用途：自動/手動指定二值化的臨界值
 建議：留空自動，或0~255">!</span>
-        </label>
-        <input type="number" class="md-input" id="threshold" name="threshold" min="0" max="255" placeholder="自動">
-      </div>
-      <div class="form-group">
-        <label class="md-label" for="svgColor">
-          主體顏色
-          <span class="tip" tabindex="0" data-tooltip="用途：設定SVG主體顏色
+            </label>
+            <input type="number" class="md-input" id="threshold" name="threshold" min="0" max="255" placeholder="自動">
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="svgColor">
+              主體顏色
+              <span class="tip" tabindex="0" data-tooltip="用途：設定SVG主體顏色
 建議：#000000（黑色）或自訂">!</span>
-        </label>
-        <input type="color" class="md-input" id="svgColor" name="svgColor" value="#000000">
-      </div>
+            </label>
+            <input type="color" class="md-input" id="svgColor" name="svgColor" value="#000000">
+          </div>
+        </div>
+      </details>
       <button type="submit" class="md-btn" aria-label="上傳並轉換"><span class="material-symbols-outlined">upload</span> 上傳並轉換</button>
     </form>
     <div class="result" id="result" aria-live="polite"></div>
@@ -347,6 +394,18 @@
         tip.addEventListener('focus', showTooltip);
         tip.addEventListener('blur', hideTooltip);
       });
+      // Material Design 3摺疊箭頭動畫
+      const collapse = document.getElementById('paramsCollapse');
+      if (collapse) {
+        const arrow = collapse.querySelector('.arrow');
+        collapse.addEventListener('toggle', function() {
+          if (collapse.open) {
+            arrow.style.transform = 'rotate(90deg)';
+          } else {
+            arrow.style.transform = 'rotate(0deg)';
+          }
+        });
+      }
     });
   </script>
 </body>
