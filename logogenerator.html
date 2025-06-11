@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Logo 產生器 (SVG 產生)</title>
+    <meta name="description" content="免費 AI Logo 產生器，輸入品牌名稱與風格描述，AI 幫你自動生成 SVG 向量 Logo，支援自訂參數與即時預覽。">
+    <meta name="keywords" content="AI Logo, SVG 產生器, 向量 Logo, 免費 Logo, 圖片轉 SVG, AI 設計, 線上工具">
+    <meta property="og:title" content="AI Logo 產生器 | 免費 SVG 向量 Logo 線上生成" />
+    <meta property="og:description" content="輸入品牌名稱與風格描述，AI 幫你自動生成 SVG 向量 Logo，支援自訂參數與即時預覽。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/logo-og.png" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "AI Logo 產生器",
+      "url": "https://你的網站/",
+      "description": "免費 AI Logo 產生器，輸入品牌名稱與風格描述，AI 幫你自動生成 SVG 向量 Logo，支援自訂參數與即時預覽。",
+      "image": "/logo-og.png"
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- [FIXED] Switched to a more reliable CDN for Potrace -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/potrace/2.1.8/potrace.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', 'Noto Sans TC', sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: #fff;
+            border-radius: 28px;
+            box-shadow: 0 4px 24px #0002;
+            max-width: 420px;
+            width: 100%;
+            padding: 40px 32px 32px 32px;
+            margin: 32px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+        h1, h2 {
+            text-align: center;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+        }
+        .md-label {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 6px;
+            display: block;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .md-input {
+            padding: 14px 12px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #fafafa;
+            margin-bottom: 0;
+            transition: border-color 0.2s, background 0.2s;
+            outline: none;
+            margin-top: 0;
+            appearance: none;
+        }
+        .md-input:focus {
+            border-color: #ff9800;
+            background: #fff;
+        }
+        .form-group {
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .form-group:last-of-type {
+            margin-bottom: 36px;
+        }
+        .md-btn {
+            padding: 13px 0;
+            background: #ff9800;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #ff980033;
+            transition: background 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 0;
+        }
+        .md-btn:disabled {
+            background: #e0e0e0;
+            color: #aaa;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 15px;
+            color: #333;
+            min-height: 24px;
+            padding: 6px 0 0 0;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+            font-size: 22px;
+        }
+        .success {
+            color: #388e3c;
+        }
+        .error {
+            color: #d32f2f;
+        }
+        @media (max-width: 900px) {
+            .container { max-width: 98vw !important; }
+            .grid, .grid-cols-1, .lg\:grid-cols-5, .gap-8 {
+                display: block !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .lg\:col-span-2, .lg\:col-span-3 {
+                width: 100% !important;
+                max-width: 100vw !important;
+                box-sizing: border-box !important;
+                margin-bottom: 24px !important;
+            }
+        }
+        @media (max-width: 500px) {
+            .container { padding: 12px 2vw !important; max-width: 100vw !important; }
+            h2 { font-size: 20px !important; }
+            .md-btn { font-size: 15px !important; width: 100% !important; }
+            .md-input, .md-label, .form-group, textarea.md-input, select.md-input, input.md-input {
+                font-size: 15px !important;
+                width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .form-group { gap: 0 !important; margin-bottom: 14px !important; }
+            .tip { font-size: 1em !important; }
+            input[type="color"].md-input { width: 36px !important; height: 36px !important; }
+            .space-y-6 > * { margin-bottom: 10px !important; }
+            .rounded-3xl, .rounded-2xl { border-radius: 12px !important; }
+        }
+        .md-icon {
+            font-size: 2.1em;
+            color: #ff9800;
+            vertical-align: middle;
+            margin: 0 2px 4px 2px;
+        }
+        .md-arrow {
+            font-size: 2em;
+            color: #888;
+            vertical-align: middle;
+            margin: 0 2px 4px 2px;
+        }
+        .tip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1em;
+            height: 1em;
+            text-align: center;
+            font-size: 16px !important;
+            cursor: pointer;
+            margin-left: 4px;
+            color: #ff9800;
+            border: 1px solid #ff9800;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        .tip:focus, .tip:active {
+            outline: 2px solid #ff9800;
+            background: #fff3e0;
+            color: #ff9800;
+            border: 1.5px solid #ff9800;
+        }
+        .custom-tooltip {
+            position: absolute;
+            z-index: 1000;
+            background: #fffbe7;
+            color: #333;
+            border: 1px solid #ff9800;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 14px;
+            box-shadow: 0 2px 8px #ff980033;
+            white-space: pre-line;
+            max-width: 360px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+        select.md-input {
+            padding-right: 32px;
+            background: #fafafa url('data:image/svg+xml;utf8,<svg fill="%23ff9800" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center/18px 18px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #3498db;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .form-input, .form-select, .form-number {
+            padding: 14px 12px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #fafafa;
+            margin-bottom: 0;
+            transition: border-color 0.2s, background 0.2s;
+            outline: none;
+            margin-top: 0;
+            appearance: none;
+        }
+        .form-input:focus, .form-select:focus, .form-number:focus {
+            border-color: #ff9800;
+            background: #fff;
+        }
+        .form-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 4px;
+            background: #fafafa;
+            transition: border-color 0.2s, background 0.2s;
+            outline: none;
+            margin-top: 0;
+            appearance: none;
+        }
+        .form-checkbox:checked {
+            background: #ff9800;
+            border-color: #ff9800;
+        }
+        .form-checkbox:focus {
+            border-color: #ff9800;
+        }
+        input[type="color"]#colorTone {
+            border: none !important;
+            box-shadow: none !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            vertical-align: middle;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #e0e0e0;
+            border-radius: 24px;
+            transition: background 0.2s;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 4px #0002;
+        }
+        .toggle-switch input:checked + .toggle-slider {
+            background: #ff9800;
+        }
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+        .preview-container {
+            background: #fff;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px #0002;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+
+    <main>
+        <div class="container mx-auto p-4 md:p-8">
+            <header class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white">AI Logo 產生器</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">輸入您的想法，讓 AI 為您創造獨一無二的 Logo</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <!-- Controls Panel -->
+                <div class="lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl" style="box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);">
+                    <div class="space-y-6">
+                        <div class="form-group">
+                            <label for="apiKey" class="md-label">Google Gemini API Key <span class="tip" tabindex="0" data-tooltip="請輸入您的 Google Gemini API 金鑰，否則無法產生 Logo。">!</span></label>
+                            <input type="text" id="apiKey" class="md-input" placeholder="請輸入 API Key">
+                        </div>
+                        <div>
+                            <label for="logoName" class="md-label">Logo 名稱</label>
+                            <input type="text" id="logoName" class="md-input" placeholder="例如：AquaBloom" style="width:100%;">
+                        </div>
+                        <div>
+                            <label for="styleDesc" class="md-label">風格描述</label>
+                            <textarea id="styleDesc" rows="4" class="md-input" placeholder="例如：簡約、現代、專業、有趣、科技感..." style="width:100%;"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="colorTone" class="md-label">主要色調</label>
+                            <input type="color" id="colorTone" value="#3b82f6" class="md-input" style="width: 48px; height: 48px; padding: 0;">
+                        </div>
+                        <div class="form-group">
+                            <label for="turdsize" class="md-label">Turdsize <span class="tip" tabindex="0" data-tooltip="Turdsize 是 Potrace 用來過濾小雜點的參數，數值越大，過濾的雜點越多。">!</span></label>
+                            <input type="number" id="turdsize" value="2" class="md-input" placeholder="turdsize">
+                        </div>
+                        <div class="form-group">
+                            <label for="optcurve" class="md-label">Optcurve <span class="tip" tabindex="0" data-tooltip="Optcurve 是 Potrace 用來優化曲線的參數，勾選後會自動優化 SVG 路徑。">!</span></label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="optcurve" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="alphamax" class="md-label">Alphamax <span class="tip" tabindex="0" data-tooltip="Alphamax 是 Potrace 用來控制曲線平滑度的參數，數值越大，曲線越平滑。">!</span></label>
+                            <input type="number" id="alphamax" value="1" class="md-input" placeholder="alphamax">
+                        </div>
+                        <div class="form-group">
+                            <label for="turnpolicy" class="md-label">Turnpolicy <span class="tip" tabindex="0" data-tooltip="Turnpolicy 是 Potrace 用來決定路徑方向的參數，不同選項會影響 SVG 路徑的生成方式。">!</span></label>
+                            <select id="turnpolicy" class="md-input">
+                                <option value="minority">minority</option>
+                                <option value="majority">majority</option>
+                                <option value="black">black</option>
+                                <option value="white">white</option>
+                                <option value="right">right</option>
+                                <option value="left">left</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="generateBtn" class="md-btn" style="width: 100%; margin-top: 32px;" aria-label="開始產生 Logo">✨ 開始產生 Logo</button>
+                </div>
+
+                <!-- Image Display -->
+                <div class="lg:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl flex flex-col items-center justify-center min-h-[400px] lg:min-h-full" style="box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);">
+                    <div id="imageContainer" class="w-full h-full flex items-center justify-center">
+                        <div id="placeholder" class="text-center text-gray-400 dark:text-gray-500">
+                            <svg class="mx-auto h-20 w-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <p class="mt-4 text-lg">產生的 Logo 將會顯示在這裡</p>
+                        </div>
+                        <div id="loader" class="loader hidden"></div>
+                        <img id="logoImage" src="" class="hidden max-w-full max-h-full object-contain rounded-lg" alt="AI 產生的 Logo 預覽">
+                    </div>
+                     <div id="resultControls" class="w-full mt-4 text-center hidden">
+                        <div class="flex flex-wrap justify-center items-center gap-4">
+                            <a id="downloadPngBtn" href="#" download="logo.png" class="btn-success inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg">
+                                下載 PNG
+                            </a>
+                            <a id="downloadSvgBtn" href="#" download="logo.svg" class="btn-secondary inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg">
+                                下載 SVG (向量)
+                            </a>
+                        </div>
+                        <div id="errorMessage" class="mt-4 text-red-500 font-medium"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // DOM 元素
+        const logoNameInput = document.getElementById('logoName');
+        const styleDescInput = document.getElementById('styleDesc');
+        const colorToneInput = document.getElementById('colorTone');
+        const colorPreview = document.getElementById('colorPreview');
+        const generateBtn = document.getElementById('generateBtn');
+        const imageContainer = document.getElementById('imageContainer');
+        const placeholder = document.getElementById('placeholder');
+        const loader = document.getElementById('loader');
+        const logoImage = document.getElementById('logoImage');
+        const resultControls = document.getElementById('resultControls');
+        const downloadPngBtn = document.getElementById('downloadPngBtn');
+        const downloadSvgBtn = document.getElementById('downloadSvgBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const apiKeyInput = document.getElementById('apiKey');
+
+        // 更新顏色預覽
+        colorToneInput.addEventListener('input', (e) => {
+            colorPreview.style.backgroundColor = e.target.value;
+        });
+
+        // 點擊產生按鈕的事件處理
+        generateBtn.addEventListener('click', async () => {
+            const logoName = logoNameInput.value.trim();
+            const styleDesc = styleDescInput.value.trim();
+            const colorTone = colorToneInput.value;
+            const apiKey = apiKeyInput.value.trim();
+            if (!logoName || !styleDesc) {
+                showError("請務必填寫「Logo 名稱」和「風格描述」。");
+                return;
+            }
+            if (!apiKey) {
+                showError("請輸入 API Key。");
+                return;
+            }
+            const prompt = `A professional logo for a brand named "${logoName}".\nThe logo must include the text "${logoName}".\nStyle: ${styleDesc}, vector art, minimalist, clean lines.\nMain color theme: ${colorTone}.\nThe logo should be on a solid, plain white background with high contrast.`;
+            await generateImage(prompt, apiKey);
+        });
+        
+        // 顯示錯誤訊息
+        function showError(message) {
+            errorMessage.textContent = message;
+            setTimeout(() => {
+                errorMessage.textContent = '';
+            }, 5000);
+        }
+        
+        // 將圖片轉換為真正的 SVG，並加入錯誤處理
+        function traceToSvg(imageUrl, successCallback, errorCallback) {
+            // 檢查 Potrace 函式庫是否已載入
+            if (typeof Potrace === 'undefined' || !Potrace) {
+                const errorMsg = "SVG 轉換工具 (Potrace) 載入失敗。";
+                console.error(errorMsg);
+                if (errorCallback) errorCallback(errorMsg);
+                return;
+            }
+
+            try {
+                Potrace.loadImage(imageUrl, (img) => {
+                    const p = new Potrace(img);
+                    p.setParameters({
+                        turdsize: parseInt(document.getElementById('turdsize').value) || 2,
+                        optcurve: document.getElementById('optcurve').checked,
+                        alphamax: parseFloat(document.getElementById('alphamax').value) || 1,
+                        turnpolicy: document.getElementById('turnpolicy').value
+                    });
+                    p.process(() => {
+                        const svg = p.getSVG(1, 'path');
+                        const dataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+                        if (successCallback) successCallback(dataUrl);
+                    });
+                });
+            } catch(e) {
+                 console.error("Error during SVG tracing:", e);
+                 if (errorCallback) errorCallback("將圖片轉換為 SVG 時發生錯誤。");
+            }
+        }
+
+        // 呼叫 AI 產生圖片
+        async function generateImage(prompt, apiKey) {
+            setLoading(true);
+            try {
+                const payload = {
+                    instances: [{ prompt: prompt }],
+                    parameters: { "sampleCount": 1 }
+                };
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || `API 請求失敗，狀態碼：${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                    const base64ImageData = result.predictions[0].bytesBase64Encoded;
+                    const pngUrl = `data:image/png;base64,${base64ImageData}`;
+                    
+                    const width = 512;
+                    const height = 512;
+                    
+                    logoImage.style.width = `${width}px`;
+                    logoImage.style.height = `${height}px`;
+                    logoImage.src = pngUrl;
+
+                    const safeLogoName = (logoNameInput.value.trim().replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'logo');
+                    const filename = `${safeLogoName}-${Date.now()}`;
+
+                    downloadPngBtn.href = pngUrl;
+                    downloadPngBtn.download = `${filename}.png`;
+                    
+                    logoImage.onload = () => {
+                       // 使用帶有回呼的 traceToSvg 函式
+                       traceToSvg(
+                           pngUrl, 
+                           (svgUrl) => { // Success
+                               downloadSvgBtn.style.display = 'inline-block';
+                               downloadSvgBtn.href = svgUrl;
+                               downloadSvgBtn.download = `${filename}.svg`;
+                               setLoading(false, true);
+                           },
+                           (errorMsg) => { // Error
+                               showError(errorMsg);
+                               downloadSvgBtn.style.display = 'none';
+                               setLoading(false, true); // 仍然顯示 PNG 結果
+                           }
+                       );
+                    };
+                    logoImage.onerror = () => {
+                        showError("圖片載入失敗。");
+                        setLoading(false);
+                    };
+                } else {
+                    throw new Error("API 回應中未包含有效的圖片資料。");
+                }
+            } catch (error) {
+                console.error('Error generating image:', error);
+                showError(`產生失敗：${error.message}`);
+                setLoading(false);
+            }
+        }
+
+        function setLoading(isLoading, isSuccess = false) {
+            if (isLoading) {
+                generateBtn.disabled = true;
+                generateBtn.textContent = '產生中...';
+                placeholder.classList.add('hidden');
+                logoImage.classList.add('hidden');
+                loader.classList.remove('hidden');
+                resultControls.classList.add('hidden');
+                errorMessage.textContent = '';
+                // 在每次產生時都先隱藏 SVG 按鈕
+                downloadSvgBtn.style.display = 'none';
+            } else {
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '✨ 重新產生 Logo';
+                loader.classList.add('hidden');
+                if (isSuccess) {
+                    logoImage.classList.remove('hidden');
+                    resultControls.classList.remove('hidden');
+                } else {
+                    placeholder.classList.remove('hidden');
+                }
+            }
+        }
+
+        // Material Design 3 風格自訂tooltip
+        function showTooltip(e) {
+            let tip = e.target;
+            let text = tip.getAttribute('data-tooltip');
+            if (!text) return;
+            let tooltip = document.createElement('div');
+            tooltip.className = 'custom-tooltip';
+            tooltip.innerHTML = text.replace(/\n/g, '<br>');
+            document.body.appendChild(tooltip);
+            const rect = tip.getBoundingClientRect();
+            tooltip.style.left = (rect.left + window.scrollX + rect.width + 8) + 'px';
+            tooltip.style.top = (rect.top + window.scrollY - 4) + 'px';
+            tooltip.style.opacity = 1;
+            tip._tooltip = tooltip;
+        }
+        function hideTooltip(e) {
+            let tip = e.target;
+            if (tip._tooltip) {
+                tip._tooltip.style.opacity = 0;
+                setTimeout(() => tip._tooltip && tip._tooltip.remove(), 150);
+                tip._tooltip = null;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.tip').forEach(tip => {
+                tip.addEventListener('mouseenter', showTooltip);
+                tip.addEventListener('mouseleave', hideTooltip);
+                tip.addEventListener('focus', showTooltip);
+                tip.addEventListener('blur', hideTooltip);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -18,6 +18,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5426289278995487"
      crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .md-input, .md-btn {
       box-sizing: border-box;
@@ -151,22 +152,19 @@
       margin: 0 2px 4px 2px;
     }
     .tip {
-      display: inline-block;
-      background: #fff3e0;
-      color: #ff9800;
-      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       width: 1em;
       height: 1em;
       text-align: center;
-      font-size: 0.95em;
+      font-size: 16px !important;
       cursor: pointer;
       margin-left: 4px;
-      font-weight: bold;
-      line-height: 1em;
-      border: 1.5px solid #ff9800;
-      vertical-align: middle;
-      transition: background 0.2s, color 0.2s, border 0.2s;
-      user-select: none;
+      color: #ff9800;
+      border: 1px solid #ff9800;
+      border-radius: 50%;
+      transition: all 0.2s;
     }
     .tip:focus, .tip:active {
       outline: 2px solid #ff9800;
@@ -241,13 +239,15 @@
     }
   </style>
 </head>
-<body>
-  <div class="container">
+<body class="bg-gray-100 text-gray-800">
+  <div class="container mx-auto max-w-2xl mt-8">
     <h1 style="display:none;">免費圖片轉SVG線上工具</h1>
-    <h2>
-      <span class="material-symbols-outlined md-icon" aria-label="圖片圖示">image</span>
-      將圖片轉換為.svg格式
-    </h2>
+    <header class="text-center mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">
+        <span class="material-symbols-outlined md-icon" aria-label="圖片圖示">image</span>
+        將圖片轉換為.svg格式
+      </h1>
+    </header>
     <form id="uploadForm" aria-label="圖片轉SVG上傳表單">
       <div class="form-group">
         <label class="md-label" for="imageInput">選擇圖片檔案</label>

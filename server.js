@@ -3,13 +3,24 @@ const multer = require('multer');
 const { execFile } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
 
 app.use(express.static(path.join(__dirname, '.')));
+app.use(cors());
+app.use(rateLimit({ windowMs: 60 * 1000, max: 5, message: 'Too many requests, please try again later.' }));
 
 app.post('/convert', upload.single('image'), (req, res) => {
+  // API Key 驗證
+  const clientKey = req.headers['x-api-key'];
+  const serverKey = process.env.API_KEY;
+  if (!serverKey || clientKey !== serverKey) {
+    return res.status(403).json({ error: 'Invalid or missing API Key.' });
+  }
+
   const imagePath = req.file.path;
   const originalName = req.file.originalname;
   const fileName = originalName.split('.')[0] + '.svg';
