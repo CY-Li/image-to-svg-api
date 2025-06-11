@@ -323,88 +323,132 @@
             justify-content: center;
             min-height: 400px;
         }
+        .collapsible {
+            border: none;
+            background: none;
+            width: 100%;
+            padding: 0;
+            margin: 0 0 18px 0;
+        }
+        .collapsible summary {
+            font-size: 17px;
+            font-weight: 700;
+            color: #ff9800;
+            border-radius: 8px;
+            padding: 12px 18px;
+            cursor: pointer;
+            outline: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+            user-select: none;
+        }
+        .collapsible[open] summary {
+            background: #fff3e0;
+            color: #d17b00;
+        }
+        .collapsible summary::-webkit-details-marker {
+            display: none;
+        }
+        .collapsible .arrow {
+            display: inline-block;
+            transition: transform 0.2s;
+            font-size: 1.2em;
+            color: #ff9800;
+        }
+        .collapsible[open] .arrow {
+            transform: rotate(90deg);
+        }
+        .collapsible-content {
+            padding: 18px 0 0 0;
+            border-radius: 0 0 8px 8px;
+            background: none;
+        }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
 
-    <main>
-        <div class="container mx-auto p-4 md:p-8">
-            <header class="text-center mb-8">
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white">AI Logo 產生器</h1>
-                <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">輸入您的想法，讓 AI 為您創造獨一無二的 Logo</p>
-            </header>
-
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                <!-- Controls Panel -->
-                <div class="lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl" style="box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);">
-                    <div class="space-y-6">
-                        <div class="form-group">
-                            <label for="apiKey" class="md-label">Google Gemini API Key <span class="tip" tabindex="0" data-tooltip="請輸入您的 Google Gemini API 金鑰，否則無法產生 Logo。">!</span></label>
-                            <input type="text" id="apiKey" class="md-input" placeholder="請輸入 API Key">
-                        </div>
-                        <div>
-                            <label for="logoName" class="md-label">Logo 名稱</label>
-                            <input type="text" id="logoName" class="md-input" placeholder="例如：AquaBloom" style="width:100%;">
-                        </div>
-                        <div>
-                            <label for="styleDesc" class="md-label">風格描述</label>
-                            <textarea id="styleDesc" rows="4" class="md-input" placeholder="例如：簡約、現代、專業、有趣、科技感..." style="width:100%;"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="colorTone" class="md-label">主要色調</label>
-                            <input type="color" id="colorTone" value="#3b82f6" class="md-input" style="width: 48px; height: 48px; padding: 0;">
-                        </div>
-                        <div class="form-group">
-                            <label for="turdsize" class="md-label">Turdsize <span class="tip" tabindex="0" data-tooltip="Turdsize 是 Potrace 用來過濾小雜點的參數，數值越大，過濾的雜點越多。">!</span></label>
-                            <input type="number" id="turdsize" value="2" class="md-input" placeholder="turdsize">
-                        </div>
-                        <div class="form-group">
-                            <label for="optcurve" class="md-label">Optcurve <span class="tip" tabindex="0" data-tooltip="Optcurve 是 Potrace 用來優化曲線的參數，勾選後會自動優化 SVG 路徑。">!</span></label>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="optcurve" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label for="alphamax" class="md-label">Alphamax <span class="tip" tabindex="0" data-tooltip="Alphamax 是 Potrace 用來控制曲線平滑度的參數，數值越大，曲線越平滑。">!</span></label>
-                            <input type="number" id="alphamax" value="1" class="md-input" placeholder="alphamax">
-                        </div>
-                        <div class="form-group">
-                            <label for="turnpolicy" class="md-label">Turnpolicy <span class="tip" tabindex="0" data-tooltip="Turnpolicy 是 Potrace 用來決定路徑方向的參數，不同選項會影響 SVG 路徑的生成方式。">!</span></label>
-                            <select id="turnpolicy" class="md-input">
-                                <option value="minority">minority</option>
-                                <option value="majority">majority</option>
-                                <option value="black">black</option>
-                                <option value="white">white</option>
-                                <option value="right">right</option>
-                                <option value="left">left</option>
-                            </select>
-                        </div>
+    <main class="w-[70vw] max-w-none mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white">AI Logo 產生器</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">輸入您的想法，讓 AI 為您創造獨一無二的 Logo</p>
+        </header>
+        <div class="flex flex-col lg:flex-row gap-8 mt-8 w-full">
+            <!-- Controls Panel -->
+            <div class="flex-1 min-w-0 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl" style="box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);">
+                <div class="space-y-6">
+                    <div class="form-group">
+                        <label for="apiKey" class="md-label">Google Gemini API Key <span class="tip" tabindex="0" data-tooltip="請輸入您的 Google Gemini API 金鑰，否則無法產生 Logo。">!</span></label>
+                        <input type="text" id="apiKey" class="md-input" placeholder="請輸入 API Key">
                     </div>
-                    <button id="generateBtn" class="md-btn" style="width: 100%; margin-top: 32px;" aria-label="開始產生 Logo">✨ 開始產生 Logo</button>
+                    <div>
+                        <label for="logoName" class="md-label">Logo 名稱</label>
+                        <input type="text" id="logoName" class="md-input" placeholder="例如：AquaBloom" style="width:100%;">
+                    </div>
+                    <div>
+                        <label for="styleDesc" class="md-label">風格描述</label>
+                        <textarea id="styleDesc" rows="4" class="md-input" placeholder="例如：簡約、現代、專業、有趣、科技感..." style="width:100%;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="colorTone" class="md-label">主要色調</label>
+                        <input type="color" id="colorTone" value="#3b82f6" class="md-input" style="width: 48px; height: 48px; padding: 0;">
+                    </div>
+                    <details class="collapsible" id="potraceCollapse">
+                        <summary><span class="arrow">→</span>進階 Potrace 參數</summary>
+                        <div class="collapsible-content">
+                            <div class="form-group">
+                                <label for="turdsize" class="md-label">Turdsize <span class="tip" tabindex="0" data-tooltip="Turdsize 是 Potrace 用來過濾小雜點的參數，數值越大，過濾的雜點越多。">!</span></label>
+                                <input type="number" id="turdsize" value="2" class="md-input" placeholder="turdsize">
+                            </div>
+                            <div class="form-group">
+                                <label for="optcurve" class="md-label">Optcurve <span class="tip" tabindex="0" data-tooltip="Optcurve 是 Potrace 用來優化曲線的參數，勾選後會自動優化 SVG 路徑。">!</span></label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="optcurve" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="alphamax" class="md-label">Alphamax <span class="tip" tabindex="0" data-tooltip="Alphamax 是 Potrace 用來控制曲線平滑度的參數，數值越大，曲線越平滑。">!</span></label>
+                                <input type="number" id="alphamax" value="1" class="md-input" placeholder="alphamax">
+                            </div>
+                            <div class="form-group">
+                                <label for="turnpolicy" class="md-label">Turnpolicy <span class="tip" tabindex="0" data-tooltip="Turnpolicy 是 Potrace 用來決定路徑方向的參數，不同選項會影響 SVG 路徑的生成方式。">!</span></label>
+                                <select id="turnpolicy" class="md-input">
+                                    <option value="minority">minority</option>
+                                    <option value="majority">majority</option>
+                                    <option value="black">black</option>
+                                    <option value="white">white</option>
+                                    <option value="right">right</option>
+                                    <option value="left">left</option>
+                                </select>
+                            </div>
+                        </div>
+                    </details>
                 </div>
+                <button id="generateBtn" class="md-btn" style="width: 100%; margin-top: 32px;" aria-label="開始產生 Logo">✨ 開始產生 Logo</button>
+            </div>
 
-                <!-- Image Display -->
-                <div class="lg:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl flex flex-col items-center justify-center min-h-[400px] lg:min-h-full" style="box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);">
-                    <div id="imageContainer" class="w-full h-full flex items-center justify-center">
-                        <div id="placeholder" class="text-center text-gray-400 dark:text-gray-500">
-                            <svg class="mx-auto h-20 w-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <p class="mt-4 text-lg">產生的 Logo 將會顯示在這裡</p>
-                        </div>
-                        <div id="loader" class="loader hidden"></div>
-                        <img id="logoImage" src="" class="hidden max-w-full max-h-full object-contain rounded-lg" alt="AI 產生的 Logo 預覽">
+            <!-- Image Display -->
+            <div class="flex-[3_3_0%] min-w-0 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl flex flex-col items-center justify-center min-h-[400px] lg:min-h-full" style="box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);">
+                <div id="imageContainer" class="w-full h-full flex items-center justify-center">
+                    <div id="placeholder" class="text-center text-gray-400 dark:text-gray-500">
+                        <svg class="mx-auto h-20 w-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <p class="mt-4 text-lg">產生的 Logo 將會顯示在這裡</p>
                     </div>
-                     <div id="resultControls" class="w-full mt-4 text-center hidden">
-                        <div class="flex flex-wrap justify-center items-center gap-4">
-                            <a id="downloadPngBtn" href="#" download="logo.png" class="btn-success inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg">
-                                下載 PNG
-                            </a>
-                            <a id="downloadSvgBtn" href="#" download="logo.svg" class="btn-secondary inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg">
-                                下載 SVG (向量)
-                            </a>
-                        </div>
-                        <div id="errorMessage" class="mt-4 text-red-500 font-medium"></div>
+                    <div id="loader" class="loader hidden"></div>
+                    <img id="logoImage" src="" class="hidden max-w-full max-h-full object-contain rounded-lg" alt="AI 產生的 Logo 預覽">
+                </div>
+                 <div id="resultControls" class="w-full mt-4 text-center hidden">
+                    <div class="flex flex-wrap justify-center items-center gap-4">
+                        <a id="downloadPngBtn" href="#" download="logo.png" class="btn-success inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg">
+                            下載 PNG
+                        </a>
+                        <a id="downloadSvgBtn" href="#" download="logo.svg" class="btn-secondary inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg">
+                            下載 SVG (向量)
+                        </a>
                     </div>
+                    <div id="errorMessage" class="mt-4 text-red-500 font-medium"></div>
                 </div>
             </div>
         </div>
@@ -447,8 +491,8 @@
                 showError("請輸入 API Key。");
                 return;
             }
-            const prompt = `A professional logo for a brand named "${logoName}".\nThe logo must include the text "${logoName}".\nStyle: ${styleDesc}, vector art, minimalist, clean lines.\nMain color theme: ${colorTone}.\nThe logo should be on a solid, plain white background with high contrast.`;
-            await generateImage(prompt, apiKey);
+            const prompt = `請幫我產生一個 SVG Logo 程式碼，主題是「${logoName}」，風格：${styleDesc}，主色：${colorTone}。只回傳 <svg> ... </svg> 程式碼，不要有其他說明。`;
+            await generateSvgByGemini(prompt, apiKey);
         });
         
         // 顯示錯誤訊息
@@ -459,103 +503,53 @@
             }, 5000);
         }
         
-        // 將圖片轉換為真正的 SVG，並加入錯誤處理
-        function traceToSvg(imageUrl, successCallback, errorCallback) {
-            // 檢查 Potrace 函式庫是否已載入
-            if (typeof Potrace === 'undefined' || !Potrace) {
-                const errorMsg = "SVG 轉換工具 (Potrace) 載入失敗。";
-                console.error(errorMsg);
-                if (errorCallback) errorCallback(errorMsg);
-                return;
-            }
-
-            try {
-                Potrace.loadImage(imageUrl, (img) => {
-                    const p = new Potrace(img);
-                    p.setParameters({
-                        turdsize: parseInt(document.getElementById('turdsize').value) || 2,
-                        optcurve: document.getElementById('optcurve').checked,
-                        alphamax: parseFloat(document.getElementById('alphamax').value) || 1,
-                        turnpolicy: document.getElementById('turnpolicy').value
-                    });
-                    p.process(() => {
-                        const svg = p.getSVG(1, 'path');
-                        const dataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
-                        if (successCallback) successCallback(dataUrl);
-                    });
-                });
-            } catch(e) {
-                 console.error("Error during SVG tracing:", e);
-                 if (errorCallback) errorCallback("將圖片轉換為 SVG 時發生錯誤。");
-            }
-        }
-
-        // 呼叫 AI 產生圖片
-        async function generateImage(prompt, apiKey) {
+        // 用 Gemini Pro 產生 SVG 程式碼
+        async function generateSvgByGemini(prompt, apiKey) {
             setLoading(true);
             try {
                 const payload = {
-                    instances: [{ prompt: prompt }],
-                    parameters: { "sampleCount": 1 }
+                    contents: [
+                        { parts: [ { text: prompt } ] }
+                    ]
                 };
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
-
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.error?.message || `API 請求失敗，狀態碼：${response.status}`);
                 }
-
                 const result = await response.json();
-                
-                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
-                    const base64ImageData = result.predictions[0].bytesBase64Encoded;
-                    const pngUrl = `data:image/png;base64,${base64ImageData}`;
-                    
-                    const width = 512;
-                    const height = 512;
-                    
-                    logoImage.style.width = `${width}px`;
-                    logoImage.style.height = `${height}px`;
-                    logoImage.src = pngUrl;
-
-                    const safeLogoName = (logoNameInput.value.trim().replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'logo');
-                    const filename = `${safeLogoName}-${Date.now()}`;
-
-                    downloadPngBtn.href = pngUrl;
-                    downloadPngBtn.download = `${filename}.png`;
-                    
-                    logoImage.onload = () => {
-                       // 使用帶有回呼的 traceToSvg 函式
-                       traceToSvg(
-                           pngUrl, 
-                           (svgUrl) => { // Success
-                               downloadSvgBtn.style.display = 'inline-block';
-                               downloadSvgBtn.href = svgUrl;
-                               downloadSvgBtn.download = `${filename}.svg`;
-                               setLoading(false, true);
-                           },
-                           (errorMsg) => { // Error
-                               showError(errorMsg);
-                               downloadSvgBtn.style.display = 'none';
-                               setLoading(false, true); // 仍然顯示 PNG 結果
-                           }
-                       );
-                    };
-                    logoImage.onerror = () => {
-                        showError("圖片載入失敗。");
-                        setLoading(false);
-                    };
-                } else {
-                    throw new Error("API 回應中未包含有效的圖片資料。");
+                // 解析 Gemini 回傳內容，找出 <svg> ... </svg>
+                let svgCode = '';
+                if (result.candidates && result.candidates.length > 0) {
+                    const content = result.candidates[0].content.parts[0].text;
+                    const match = content.match(/<svg[\s\S]*?<\/svg>/i);
+                    if (match) svgCode = match[0];
                 }
+                if (!svgCode) throw new Error('未取得有效的 SVG 程式碼');
+                // 顯示 SVG 預覽
+                logoImage.style.display = 'none';
+                // 自動補上 width/height
+                let fixedSvg = svgCode.replace('<svg', '<svg style="max-width:100%;height:auto;display:block;"');
+                if (!/width=["']\d+["']/.test(fixedSvg)) fixedSvg = fixedSvg.replace('<svg', '<svg width="256"');
+                if (!/height=["']\d+["']/.test(fixedSvg)) fixedSvg = fixedSvg.replace('<svg', '<svg height="256"');
+                imageContainer.innerHTML = `<div class='w-full flex flex-col items-center'><div id='svgPreview' class='w-full flex justify-center items-center max-w-full overflow-auto'>${fixedSvg}</div></div>`;
+                // 下載 SVG
+                const safeLogoName = (logoNameInput.value.trim().replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'logo');
+                const filename = `${safeLogoName}-${Date.now()}`;
+                const svgBlob = new Blob([svgCode], { type: 'image/svg+xml' });
+                const svgUrl = URL.createObjectURL(svgBlob);
+                downloadSvgBtn.style.display = 'inline-block';
+                downloadSvgBtn.href = svgUrl;
+                downloadSvgBtn.download = `${filename}.svg`;
+                // 隱藏 PNG 下載按鈕
+                downloadPngBtn.style.display = 'none';
+                setLoading(false, true);
             } catch (error) {
-                console.error('Error generating image:', error);
                 showError(`產生失敗：${error.message}`);
                 setLoading(false);
             }
@@ -612,9 +606,18 @@
             document.querySelectorAll('.tip').forEach(tip => {
                 tip.addEventListener('mouseenter', showTooltip);
                 tip.addEventListener('mouseleave', hideTooltip);
-                tip.addEventListener('focus', showTooltip);
-                tip.addEventListener('blur', hideTooltip);
             });
+            const collapse = document.getElementById('potraceCollapse');
+            if (collapse) {
+                const arrow = collapse.querySelector('.arrow');
+                collapse.addEventListener('toggle', function() {
+                    if (collapse.open) {
+                        arrow.style.transform = 'rotate(90deg)';
+                    } else {
+                        arrow.style.transform = 'rotate(0deg)';
+                    }
+                });
+            }
         });
     </script>
 </body>

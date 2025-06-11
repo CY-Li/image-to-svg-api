@@ -393,8 +393,6 @@
       document.querySelectorAll('.tip').forEach(tip => {
         tip.addEventListener('mouseenter', showTooltip);
         tip.addEventListener('mouseleave', hideTooltip);
-        tip.addEventListener('focus', showTooltip);
-        tip.addEventListener('blur', hideTooltip);
       });
       // Material Design 3摺疊箭頭動畫
       const collapse = document.getElementById('paramsCollapse');
