@@ -8,13 +8,13 @@ RUN apt-get update && apt-get install -y \
     python3-full \
     pkg-config \
     libagg-dev \
-    libagg \
     potrace \
     libreoffice \
     poppler-utils \
     enscript \
     build-essential \
     python3-dev \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 # 設置工作目錄
@@ -34,10 +34,11 @@ ENV PATH="/app/venv/bin:$PATH"
 COPY requirements.txt ./
 
 # 安裝 Python 依賴
-RUN pip install --no-cache-dir numpy && \
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir numpy && \
     pip install --no-cache-dir opencv-python && \
     pip install --no-cache-dir Cython && \
-    pip install --no-cache-dir pypotrace
+    pip install --no-cache-dir git+https://github.com/flupke/pypotrace.git
 
 # 複製應用程序文件
 COPY . .
