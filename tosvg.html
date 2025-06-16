@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>Free Image to SVG : 免費線上轉換工具 | 圖片轉SVG | LOGO向量化</title>
+  <meta name="description" content="免費線上圖片轉SVG工具，支援JPG、PNG、LOGO、插圖一鍵向量化，無需安裝，快速下載SVG檔案，適用於設計、網頁、印刷。">
+  <meta name="keywords" content="圖片轉SVG, image to svg, 線上向量化, logo svg, 免費工具, 向量圖, 圖片轉換, 圖片去背, svg 產生器, image vectorizer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="免費圖片轉SVG線上工具 | Free Image to SVG" />
+  <meta property="og:description" content="免費線上圖片轉SVG工具，支援JPG、PNG、LOGO、插圖一鍵向量化，快速下載SVG檔案。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://svg-converter.zeabur.app/" />
+  <meta property="og:image" content="https://svg-converter.zeabur.app/og-image.png" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <!-- Google Fonts & Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5426289278995487"
+     crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: #fff;
+      border-radius: 28px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      width: 70% !important;
+      max-width: 640px !important;
+      padding: 40px 32px 32px 32px;
+      margin: 32px 0;
+    }
+    h1, h2 {
+      text-align: center;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .md-label {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 6px;
+      display: block;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .md-input, .md-btn {
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .md-input {
+      padding: 14px 12px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      background: #fafafa;
+      margin-bottom: 0;
+      transition: border-color 0.2s, background 0.2s;
+      outline: none;
+      margin-top: 0;
+      appearance: none;
+    }
+    .md-input:focus {
+      border-color: #4f46e5;
+      background: #fff;
+    }
+    .form-group {
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .form-group:last-of-type {
+      margin-bottom: 36px;
+    }
+    .md-btn {
+      padding: 13px 0;
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+      transition: background 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 0;
+    }
+    .md-btn:hover {
+      background: #4338ca;
+    }
+    .md-btn:disabled {
+      background: #e0e0e0;
+      color: #aaa;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+    .result {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 15px;
+      color: #333;
+      min-height: 24px;
+      padding: 6px 0 0 0;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+      font-size: 22px;
+    }
+    .success {
+      color: #059669;
+    }
+    .error {
+      color: #dc2626;
+    }
+    @media (max-width: 900px) {
+      .container {
+        width: 70% !important;
+        max-width: 640px !important;
+      }
+    }
+    @media (max-width: 500px) {
+      .container {
+        width: 70% !important;
+        max-width: 640px !important;
+        padding: 12px 2vw !important;
+      }
+    }
+    .md-icon {
+      font-size: 2.1em;
+      color: #4f46e5;
+      vertical-align: middle;
+      margin: 0 2px 4px 2px;
+    }
+    .md-arrow {
+      font-size: 2em;
+      color: #888;
+      vertical-align: middle;
+      margin: 0 2px 4px 2px;
+    }
+    .tip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1em;
+      height: 1em;
+      text-align: center;
+      font-size: 16px !important;
+      cursor: pointer;
+      margin-left: 4px;
+      color: #4f46e5;
+      border: 1px solid #4f46e5;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+    .tip:focus, .tip:active {
+      outline: 2px solid #4f46e5;
+      background: #eef2ff;
+      color: #4f46e5;
+      border: 1.5px solid #4f46e5;
+    }
+    .custom-tooltip {
+      position: absolute;
+      z-index: 1000;
+      background: #eef2ff;
+      color: #1a1a1a;
+      border: 1px solid #4f46e5;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+      white-space: pre-line;
+      max-width: 360px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    select.md-input {
+      padding-right: 32px;
+      background: #fafafa url('data:image/svg+xml;utf8,<svg fill="%234f46e5" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center/18px 18px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+    .collapsible {
+      border: none;
+      background: none;
+      width: 100%;
+      padding: 0;
+      margin: 0 0 18px 0;
+    }
+    .collapsible summary {
+      font-size: 17px;
+      font-weight: 700;
+      color: #4f46e5;
+      border-radius: 8px;
+      padding: 12px 18px;
+      cursor: pointer;
+      outline: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      user-select: none;
+    }
+    .collapsible[open] summary {
+      background: #eef2ff;
+      color: #4338ca;
+    }
+    .collapsible summary::-webkit-details-marker {
+      display: none;
+    }
+    .collapsible .arrow {
+      display: inline-block;
+      transition: transform 0.2s;
+      font-size: 1.2em;
+      color: #4f46e5;
+    }
+    .collapsible[open] .arrow {
+      transform: rotate(90deg);
+    }
+    .collapsible-content {
+      padding: 18px 0 0 0;
+      border-radius: 0 0 8px 8px;
+      background: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">
+    圖片轉SVG格式
+  </h1>
+  <div class="container">
+    <form id="uploadForm" aria-label="圖片轉SVG上傳表單">
+      <div class="form-group">
+        <label class="md-label" for="imageInput">選擇圖片檔案</label>
+        <input type="file" class="md-input" id="imageInput" name="image" accept="image/*" required aria-required="true" aria-label="選擇圖片檔案">
+      </div>
+      <details class="collapsible" id="paramsCollapse">
+        <summary><span class="arrow">→</span>調整影像輸出參數</summary>
+        <div class="collapsible-content">
+          <div class="form-group">
+            <label class="md-label" for="bgSensitivity">
+              去背靈敏度
+              <span class="tip" tabindex="0" data-tooltip="用途：調整背景與主體顏色差多少才算背景
+建議：30（數值越大越寬鬆，主體顏色接近背景時可調小）">!</span>
+            </label>
+            <input type="number" class="md-input" id="bgSensitivity" name="bgSensitivity" min="5" max="100" value="30">
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="denoise">
+              降噪強度
+              <span class="tip" tabindex="0" data-tooltip="用途：控制降噪的強度，數值越大越平滑
+建議：5~10，過大會失去細節">!</span>
+            </label>
+            <input type="number" class="md-input" id="denoise" name="denoise" min="1" max="20" value="5">
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="contrast">
+              啟用亮度/對比優化
+              <span class="tip" tabindex="0" data-tooltip="用途：讓主體更明顯
+建議：預設開啟，若圖片本身對比已佳可關閉">!</span>
+            </label>
+            <select class="md-input" id="contrast" name="contrast">
+              <option value="on" selected>開啟</option>
+              <option value="off">關閉</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="sharpen">
+              銳利化強度
+              <span class="tip" tabindex="0" data-tooltip="用途：讓輪廓更清楚
+建議：1.2~1.5，過大會產生雜訊">!</span>
+            </label>
+            <input type="number" class="md-input" id="sharpen" name="sharpen" min="1" max="2" step="0.1" value="1.2">
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="posterize">
+              色彩簡化色階
+              <span class="tip" tabindex="0" data-tooltip="用途：控制色彩簡化的程度
+建議：64=4色，32=8色，16=16色">!</span>
+            </label>
+            <input type="number" class="md-input" id="posterize" name="posterize" min="2" max="128" step="1" value="64">
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="threshold">
+              二值化閾值
+              <span class="tip" tabindex="0" data-tooltip="用途：自動/手動指定二值化的臨界值
+建議：留空自動，或0~255">!</span>
+            </label>
+            <input type="number" class="md-input" id="threshold" name="threshold" min="0" max="255" placeholder="自動">
+          </div>
+          <div class="form-group">
+            <label class="md-label" for="svgColor">
+              主體顏色
+              <span class="tip" tabindex="0" data-tooltip="用途：設定SVG主體顏色
+建議：#000000（黑色）或自訂">!</span>
+            </label>
+            <input type="color" class="md-input" id="svgColor" name="svgColor" value="#000000">
+          </div>
+        </div>
+      </details>
+      <button type="submit" class="md-btn" aria-label="上傳並轉換"><span class="material-symbols-outlined">upload</span> 上傳並轉換</button>
+    </form>
+    <div class="result" id="result" aria-live="polite"></div>
+  </div>
+  <script>
+    const form = document.getElementById('uploadForm');
+    const resultDiv = document.getElementById('result');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      resultDiv.innerHTML = '<span class="material-symbols-outlined">hourglass_top</span> 處理中...';
+
+      const fileInput = document.getElementById('imageInput');
+      if (!fileInput.files.length) return;
+
+      const formData = new FormData();
+      formData.append('image', fileInput.files[0]);
+      formData.append('bgSensitivity', document.getElementById('bgSensitivity').value);
+      formData.append('denoise', document.getElementById('denoise').value);
+      formData.append('contrast', document.getElementById('contrast').value);
+      formData.append('sharpen', document.getElementById('sharpen').value);
+      formData.append('posterize', document.getElementById('posterize').value);
+      formData.append('threshold', document.getElementById('threshold').value);
+      formData.append('svgColor', document.getElementById('svgColor').value);
+
+      let apiUrl = '/convert';
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          body: formData
+        });
+        if (!response.ok) throw new Error('伺服器錯誤');
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        // 自動下載
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'output.svg';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+
+        resultDiv.innerHTML = '<span class="material-symbols-outlined success">check_circle</span> 轉換完成，SVG 已自動下載！';
+      } catch (err) {
+        resultDiv.innerHTML = '<span class="material-symbols-outlined error">error</span> 轉換失敗：' + err.message;
+      }
+    });
+
+    // Material Design 3 風格自訂tooltip
+    function showTooltip(e) {
+      let tip = e.target;
+      let text = tip.getAttribute('data-tooltip');
+      if (!text) return;
+      let tooltip = document.createElement('div');
+      tooltip.className = 'custom-tooltip';
+      tooltip.innerHTML = text.replace(/\n/g, '<br>');
+      document.body.appendChild(tooltip);
+      const rect = tip.getBoundingClientRect();
+      tooltip.style.left = (rect.left + window.scrollX + rect.width + 8) + 'px';
+      tooltip.style.top = (rect.top + window.scrollY - 4) + 'px';
+      tooltip.style.opacity = 1;
+      tip._tooltip = tooltip;
+    }
+    function hideTooltip(e) {
+      let tip = e.target;
+      if (tip._tooltip) {
+        tip._tooltip.style.opacity = 0;
+        setTimeout(() => tip._tooltip && tip._tooltip.remove(), 150);
+        tip._tooltip = null;
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.tip').forEach(tip => {
+        tip.addEventListener('mouseenter', showTooltip);
+        tip.addEventListener('mouseleave', hideTooltip);
+      });
+      // Material Design 3摺疊箭頭動畫
+      const collapse = document.getElementById('paramsCollapse');
+      if (collapse) {
+        const arrow = collapse.querySelector('.arrow');
+        collapse.addEventListener('toggle', function() {
+          if (collapse.open) {
+            arrow.style.transform = 'rotate(90deg)';
+          } else {
+            arrow.style.transform = 'rotate(0deg)';
+          }
+        });
+      }
+    });
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5426289278995487"
+  crossorigin="anonymous"></script>
+<!-- 多媒體廣告 -->
+<ins class="adsbygoogle"
+  style="display:block"
+  data-ad-client="ca-pub-5426289278995487"
+  data-ad-slot="3521861859"
+  data-ad-format="auto"
+  data-full-width-responsive="true"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</body>
+</html> 
