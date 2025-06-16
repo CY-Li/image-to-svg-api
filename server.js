@@ -23,7 +23,7 @@ app.use(helmet({
             styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
             fontSrc: ["'self'", "fonts.gstatic.com"],
             imgSrc: ["'self'", "data:", "blob:"],
-            connectSrc: ["'self'", "https://generativelanguage.googleapis.com"]
+            connectSrc: ["'self'", "https://generativelanguage.googleapis.com", "https://translate.googleapis.com"]
         }
     }
 }));
@@ -31,7 +31,7 @@ app.use(helmet({
 // 基本中間件
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(__dirname));
 
 // 設定上傳目錄
 const uploadDir = '/tmp/uploads';
