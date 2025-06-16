@@ -256,7 +256,7 @@
     <form id="uploadForm" aria-label="圖片轉SVG上傳表單">
       <div class="form-group">
         <label class="md-label" for="imageInput">選擇圖片檔案</label>
-        <input type="file" class="md-input" id="imageInput" name="image" accept="image/*" required aria-required="true" aria-label="選擇圖片檔案">
+        <input type="file" class="md-input" id="imageInput" name="file" accept="image/*" required aria-required="true" aria-label="選擇圖片檔案">
       </div>
       <details class="collapsible" id="paramsCollapse">
         <summary><span class="arrow">→</span>調整影像輸出參數</summary>
@@ -337,7 +337,7 @@
       if (!fileInput.files.length) return;
 
       const formData = new FormData();
-      formData.append('image', fileInput.files[0]);
+      formData.append('file', fileInput.files[0]);
       formData.append('bgSensitivity', document.getElementById('bgSensitivity').value);
       formData.append('denoise', document.getElementById('denoise').value);
       formData.append('contrast', document.getElementById('contrast').value);
@@ -346,7 +346,7 @@
       formData.append('threshold', document.getElementById('threshold').value);
       formData.append('svgColor', document.getElementById('svgColor').value);
 
-      let apiUrl = '/api/convert';
+      let apiUrl = '/api/tosvg';
       try {
         const response = await fetch(apiUrl, {
           method: 'POST',
