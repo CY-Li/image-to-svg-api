@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libagg-dev \
     potrace \
+    libpotrace-dev \
     libreoffice \
     poppler-utils \
     enscript \
@@ -38,7 +39,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir numpy && \
     pip install --no-cache-dir opencv-python && \
     pip install --no-cache-dir Cython && \
-    pip install --no-cache-dir git+https://github.com/flupke/pypotrace.git
+    pip install --no-cache-dir pypotrace==0.3.0
 
 # 複製應用程序文件
 COPY . .
