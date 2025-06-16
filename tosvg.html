@@ -346,7 +346,7 @@
       formData.append('threshold', document.getElementById('threshold').value);
       formData.append('svgColor', document.getElementById('svgColor').value);
 
-      let apiUrl = '/convert';
+      let apiUrl = '/api/convert';
       try {
         const response = await fetch(apiUrl, {
           method: 'POST',

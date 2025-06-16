@@ -118,21 +118,35 @@ app.post('/api/convert', upload.single('file'), async (req, res) => {
     }
 
     const inputPath = req.file.path;
-    const outputPath = path.join(uploadDir, `converted-${Date.now()}.${targetFormat}`);
+    // 新增格式對應表
+    const formatMap = {
+        pdf: '.pdf',
+        docx: '.docx',
+        doc: '.doc',
+        xlsx: '.xlsx',
+        xls: '.xls',
+        txt: '.txt',
+        svg: '.svg'
+    };
+    const outputExt = formatMap[targetFormat];
+    if (!outputExt) {
+        cleanupFiles([inputPath]);
+        return res.status(400).json({ error: '不支援的轉換格式' });
+    }
+    const outputPath = path.join(uploadDir, `converted-${Date.now()}${outputExt}`);
 
     try {
-        let result;
         if (targetFormat === 'svg') {
             // 使用 Python 腳本轉換為 SVG
-            result = await execAsync(`python3 vectorize.py "${inputPath}" "${outputPath}"`);
+            await execAsync(`python3 vectorize.py "${inputPath}" "${outputPath}"`);
         } else {
             // 使用 LibreOffice 轉換其他格式
-            const docxBuf = await fs.promises.readFile(inputPath);
-            const pdfBuf = await libreConvert(docxBuf, '.pdf', undefined);
-            await fs.promises.writeFile(outputPath, pdfBuf);
+            const inputBuf = await fs.promises.readFile(inputPath);
+            const outputBuf = await libreConvert(inputBuf, outputExt, undefined);
+            await fs.promises.writeFile(outputPath, outputBuf);
         }
 
-        res.download(outputPath, `converted.${targetFormat}`, (err) => {
+        res.download(outputPath, `converted${outputExt}`, (err) => {
             if (err) {
                 console.error('下載錯誤:', err);
             }
