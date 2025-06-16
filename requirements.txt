@@ -1,2 +1,4 @@
-opencv-python
-numpy
+opencv-python==4.8.1.78
+numpy==1.24.3
+pypotrace==0.3.0
+Cython==3.0.6
