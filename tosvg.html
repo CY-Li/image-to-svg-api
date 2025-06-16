@@ -350,6 +350,9 @@
       try {
         const response = await fetch(apiUrl, {
           method: 'POST',
+          headers: {
+            'x-api-key': 'tosvg-api-key-2024'
+          },
           body: formData
         });
         if (!response.ok) throw new Error('伺服器錯誤');

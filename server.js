@@ -9,6 +9,9 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const upload = multer({ dest: 'uploads/' });
 
+// 設置 API Key
+const API_KEY = 'tosvg-api-key-2024';
+
 app.use(express.static(path.join(__dirname, '.')));
 app.use(cors());
 app.use(rateLimit({ windowMs: 60 * 1000, max: 5, message: 'Too many requests, please try again later.' }));
@@ -16,8 +19,7 @@ app.use(rateLimit({ windowMs: 60 * 1000, max: 5, message: 'Too many requests, pl
 app.post('/convert', upload.single('image'), (req, res) => {
   // API Key 驗證
   const clientKey = req.headers['x-api-key'];
-  const serverKey = process.env.API_KEY;
-  if (!serverKey || clientKey !== serverKey) {
+  if (clientKey !== API_KEY) {
     return res.status(403).json({ error: 'Invalid or missing API Key.' });
   }
 
