@@ -1,10 +1,16 @@
 FROM node:18
 
-# 安裝系統依賴
+# 安裝系統依賴與建立 Python 虛擬環境
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip potrace && \
-    pip3 install opencv-python numpy && \
-    mkdir -p /tmp/uploads && chmod 777 /tmp/uploads
+    apt-get install -y python3 python3-pip python3-venv potrace && \
+    python3 -m venv /app/venv
+
+# 啟用 venv，安裝 Python 套件
+ENV PATH="/app/venv/bin:$PATH"
+RUN pip install --upgrade pip && pip install opencv-python numpy
+
+# 建立 uploads 目錄
+RUN mkdir -p /tmp/uploads && chmod 777 /tmp/uploads
 
 # 設置工作目錄
 WORKDIR /app
@@ -14,10 +20,6 @@ COPY package*.json ./
 
 # 安裝 Node.js 依賴
 RUN npm install
-
-# 創建並激活 Python 虛擬環境
-RUN python3 -m venv /app/venv
-ENV PATH="/app/venv/bin:$PATH"
 
 # 複製 requirements.txt
 COPY requirements.txt ./
