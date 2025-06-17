@@ -2,7 +2,7 @@ FROM node:18
 
 # 安裝系統依賴與建立 Python 虛擬環境
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip python3-venv potrace libpotrace-dev pkg-config libagg-dev && \
+    apt-get install -y python3 python3-pip python3-venv potrace libpotrace-dev pkg-config libagg-dev libgl1 libglib2.0-0 && \
     python3 -m venv /app/venv
 
 # 啟用 venv，安裝 Python 套件
