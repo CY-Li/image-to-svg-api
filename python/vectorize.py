@@ -4,6 +4,7 @@ import numpy as np
 import subprocess
 import os
 import re
+import argparse
 
 def remove_background(img, sensitivity=30):
     h, w = img.shape[:2]
@@ -15,16 +16,27 @@ def remove_background(img, sensitivity=30):
     return mask
 
 def main():
-    img_path = sys.argv[1]
-    output_svg = sys.argv[2]
-    # 依序取得所有參數
-    threshold = int(sys.argv[3]) if len(sys.argv) > 3 and sys.argv[3] else None
-    bgSensitivity = int(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4] else 30
-    denoise = int(sys.argv[5]) if len(sys.argv) > 5 and sys.argv[5] else 5
-    contrast = sys.argv[6] if len(sys.argv) > 6 and sys.argv[6] else 'on'
-    sharpen = float(sys.argv[7]) if len(sys.argv) > 7 and sys.argv[7] else 1.2
-    posterize = int(sys.argv[8]) if len(sys.argv) > 8 and sys.argv[8] else 64
-    svgColor = sys.argv[9] if len(sys.argv) > 9 and sys.argv[9] else '#000000'
+    parser = argparse.ArgumentParser()
+    parser.add_argument('img_path')
+    parser.add_argument('output_svg')
+    parser.add_argument('--threshold', type=int, default=None)
+    parser.add_argument('--bg-sensitivity', type=int, default=30)
+    parser.add_argument('--denoise', type=int, default=5)
+    parser.add_argument('--contrast', type=str, default='on')
+    parser.add_argument('--sharpen', type=float, default=1.2)
+    parser.add_argument('--posterize', type=int, default=64)
+    parser.add_argument('--svg-color', type=str, default='#000000')
+    args = parser.parse_args()
+
+    img_path = args.img_path
+    output_svg = args.output_svg
+    threshold = args.threshold
+    bgSensitivity = args.bg_sensitivity
+    denoise = args.denoise
+    contrast = args.contrast
+    sharpen = args.sharpen
+    posterize = args.posterize
+    svgColor = args.svg_color
 
     # 1. 讀取原圖
     img = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
@@ -86,15 +98,15 @@ def main():
     svg_paths = []
     for p in paths:
         if 'fill=' in p:
-            p = re.sub(r'fill=\"[^\"]*\"', f'fill=\"{color_hex}\"', p)
+            p = re.sub(r'fill="[^"]*"', f'fill="{color_hex}"', p)
         else:
-            p = p.replace('/>', f' fill=\"{color_hex}\"/>')
+            p = p.replace('/>', f' fill="{color_hex}"/>')
         svg_paths.append(p)
     os.remove(mask_path)
     os.remove(svg_path)
 
     h, w = mask_img.shape[:2]
-    svg_header = f'<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\">'
+    svg_header = f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}">'
     svg_footer = '</svg>'
     with open(output_svg, 'w', encoding='utf-8') as f:
         f.write(svg_header + '\n')
