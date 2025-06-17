@@ -550,6 +550,22 @@
             display: inline-block;
             vertical-align: middle;
         }
+        .api-key-hint {
+            margin-top: 8px;
+            font-size: 14px;
+        }
+        
+        .api-key-hint a {
+            color: #2196F3;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .api-key-hint a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
@@ -585,6 +601,11 @@
                     <div class="form-group">
                         <label for="apiKey" class="md-label">Google Gemini API Key <span class="tip" tabindex="0" data-tooltip="請輸入您的 Google Gemini API 金鑰，否則無法產生 Logo。">!</span></label>
                         <input type="text" id="apiKey" class="md-input" placeholder="請輸入 API Key">
+                        <div class="api-key-hint">
+                            <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">
+                                還沒有 API Key？
+                            </a>
+                        </div>
                     </div>
                     <div>
                         <label for="logoName" class="md-label">Logo 名稱 <span class="tip" tabindex="0" data-tooltip="請輸入您的品牌或公司名稱，例如：Luna tec">!</span></label>
