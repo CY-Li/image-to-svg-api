@@ -118,7 +118,7 @@
                     </p>
                     <button
                       class="bg-white text-indigo-700 hover:bg-indigo-100 font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-                      onclick="document.getElementById('features').scrollIntoView({ behavior: 'smooth' });"
+                      onclick="scrollToFeatures()"
                     >
                       立即開始體驗
                     </button>
@@ -250,5 +250,17 @@
         </footer>
 
     </div>
+    <script>
+        function scrollToFeatures() {
+            const featuresSection = document.getElementById('features');
+            if (featuresSection) {
+                const offset = featuresSection.offsetTop;
+                window.scrollTo({
+                    top: offset,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    </script>
 </body>
 </html>
