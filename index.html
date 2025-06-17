@@ -43,12 +43,50 @@
                 </div>
                 <div class="md:hidden">
                     <!-- Mobile Menu Button (Hamburger) -->
-                    <button class="text-gray-600 focus:outline-none">
+                    <button id="mobileMenuBtn" class="text-gray-600 focus:outline-none">
                         <span class="material-icons">menu</span>
                     </button>
                 </div>
             </nav>
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden">
+                <div class="absolute top-0 right-0 w-3/4 max-w-xs bg-white h-full shadow-lg flex flex-col p-6">
+                    <button id="closeMobileMenu" class="self-end mb-6 text-gray-600 focus:outline-none">
+                        <span class="material-icons">close</span>
+                    </button>
+                    <a href="#" class="block text-gray-700 font-medium text-lg mb-4">首頁</a>
+                    <a href="#features" class="block text-gray-700 font-medium text-lg mb-4">功能</a>
+                </div>
+            </div>
         </header>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const closeBtn = document.getElementById('closeMobileMenu');
+            // 展開
+            menuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileMenu.classList.remove('hidden');
+            });
+            // 關閉
+            closeBtn.addEventListener('click', function() {
+                mobileMenu.classList.add('hidden');
+            });
+            // 點擊遮罩區域關閉
+            mobileMenu.addEventListener('click', function(e) {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+            // 點擊選單自動收起
+            mobileMenu.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        });
+        </script>
 
         <!-- Hero Section -->
         <section class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white py-20 px-6">
