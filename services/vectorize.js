@@ -12,7 +12,7 @@ async function vectorizeImage(inputPath, outputPath, params) {
     if (params.sharpen) args += ` --sharpen ${params.sharpen}`;
     if (params.posterize) args += ` --posterize ${params.posterize}`;
     if (params.threshold) args += ` --threshold ${params.threshold}`;
-    if (params.svgColor) args += ` --svg-color ${params.svgColor}`;
+    if (params.svgColor) args += ` --svg-color "${params.svgColor}"`;
     const scriptPath = path.join(__dirname, '../python/vectorize.py');
     const cmd = `python3 "${scriptPath}" "${inputPath}" "${outputPath}"${args}`;
     await execAsync(cmd);
