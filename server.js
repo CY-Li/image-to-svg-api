@@ -10,11 +10,25 @@ const tosvgRouter = require('./routes/tosvg');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(helmet());
+app.set('trust proxy', 1);
+
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "cdn.tailwindcss.com", "unpkg.com", "cdn.jsdelivr.net", "fonts.googleapis.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com", "cdn.jsdelivr.net", "unpkg.com"],
+      fontSrc: ["'self'", "fonts.gstatic.com", "cdn.jsdelivr.net", "unpkg.com"],
+      imgSrc: ["'self'", "data:", "blob:"],
+      connectSrc: ["'self'", "https://generativelanguage.googleapis.com", "https://translate.googleapis.com"]
+    }
+  }
+}));
 app.use(cors());
 app.use(express.json());
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname));
 
 app.use('/api/convert', convertRouter);

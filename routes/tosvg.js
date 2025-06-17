@@ -31,7 +31,7 @@ router.post('/', upload.single('file'), async (req, res) => {
     } catch (error) {
         fs.unlink(inputPath, () => {});
         fs.unlink(outputPath, () => {});
-        res.status(500).json({ error: '圖片轉換失敗' });
+        res.status(500).json({ error: '圖片轉換失敗', detail: error.message });
     }
 });
 
