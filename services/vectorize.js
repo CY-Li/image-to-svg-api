@@ -1,5 +1,6 @@
 const { exec } = require('child_process');
 const util = require('util');
+const path = require('path');
 const execAsync = util.promisify(exec);
 
 async function vectorizeImage(inputPath, outputPath, params) {
@@ -12,7 +13,8 @@ async function vectorizeImage(inputPath, outputPath, params) {
     if (params.posterize) args += ` --posterize ${params.posterize}`;
     if (params.threshold) args += ` --threshold ${params.threshold}`;
     if (params.svgColor) args += ` --svg-color ${params.svgColor}`;
-    const cmd = `python3 vectorize.py "${inputPath}" "${outputPath}"${args}`;
+    const scriptPath = path.join(__dirname, '../python/vectorize.py');
+    const cmd = `python3 "${scriptPath}" "${inputPath}" "${outputPath}"${args}`;
     await execAsync(cmd);
 }
 
