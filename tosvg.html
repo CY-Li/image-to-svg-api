@@ -564,12 +564,32 @@
       .main-content-custom { width: 100%; padding-left: 8px; padding-right: 8px; box-sizing: border-box; margin-left: 0; margin-right: 0; }
     }
     .mobile-menu-btn, #mobileMenu { display: none; }
-    .mobile-bottom-ad { display: none; }
-    @media (max-width: 900px) {
-      .mobile-bottom-ad { display: block; margin: 24px 0 0 0; text-align: center; min-height: 120px; }
+    /* 移動端廣告樣式 */
+    .mobile-bottom-ad { 
+      display: none;
+      margin: 24px auto;
+      text-align: center;
+      background: transparent;
+      clear: both;
+      min-height: 250px;
+      max-width: 100%;
+      padding: 0 16px;
+      box-sizing: border-box;
     }
+
+    @media (max-width: 900px) {
+      .mobile-bottom-ad { 
+        display: block;
+      }
+      .main-content-custom {
+        margin-bottom: 280px;
+      }
+    }
+
     @media (min-width: 901px) {
-      .mobile-bottom-ad { display: none !important; }
+      .mobile-bottom-ad { 
+        display: none !important;
+      }
     }
   </style>
 </head>
@@ -611,12 +631,11 @@
   <div class="main-layout">
     <div class="adsbygoogle-left">
       <ins class="adsbygoogle" id="adLeft"
-           style="display:block;min-width:160px;min-height:300px"
+           style="display:block; width:160px; height:600px"
            data-ad-client="ca-pub-5426289278995487"
            data-ad-slot="8140274464"
            data-ad-format="vertical"
-           data-full-width-responsive="true"
-           loading="lazy"></ins>
+           data-full-width-responsive="false"></ins>
     </div>
     <main class="main-content-padded main-content-custom mx-auto py-8 mt-16">
       <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" style="margin-bottom: 48px;">
@@ -698,13 +717,22 @@
     </main>
     <div class="adsbygoogle-right">
       <ins class="adsbygoogle" id="adRight"
-           style="display:block;min-width:160px;min-height:300px"
+           style="display:block; width:160px; height:600px"
            data-ad-client="ca-pub-5426289278995487"
            data-ad-slot="5214728221"
            data-ad-format="vertical"
-           data-full-width-responsive="true"
-           loading="lazy"></ins>
+           data-full-width-responsive="false"></ins>
     </div>
+  </div>
+
+  <!-- 移動端底部廣告 -->
+  <div class="mobile-bottom-ad">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5426289278995487"
+         data-ad-slot="9968361458"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
   </div>
 
   <script>
@@ -797,16 +825,114 @@
       }
     });
 
-    // 只在廣告區塊可見時才 push adsbygoogle，避免 availableWidth=0 錯誤
-    function showAdsIfVisible(id) {
-      var el = document.getElementById(id);
-      if (el && el.offsetWidth > 0 && el.offsetHeight > 0) {
-        (adsbygoogle = window.adsbygoogle || []).push({});
+    // 廣告初始化狀態
+    let adsInitialized = false;
+    let mobileAdInitialized = false;
+
+    // 初始化廣告
+    function initAds() {
+      if (adsInitialized) return;
+      
+      // 初始化側邊廣告
+      if (window.innerWidth >= 1200) {
+        const sideAdContainers = document.querySelectorAll('.adsbygoogle-left, .adsbygoogle-right');
+        sideAdContainers.forEach(container => {
+          const adIns = container.querySelector('.adsbygoogle');
+          if (adIns && !adIns.classList.contains('adsbygoogle-noablate')) {
+            try {
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {
+              console.error('Side ad initialization error:', e);
+            }
+          }
+        });
+      }
+      
+      // 初始化移動端廣告
+      if (window.innerWidth < 1200 && !mobileAdInitialized) {
+        initMobileAd();
+      }
+      
+      adsInitialized = true;
+    }
+
+    // 初始化移動端廣告
+    function initMobileAd() {
+      const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
+      if (!mobileAdContainer || mobileAdInitialized) return;
+
+      // 確保容器可見
+      mobileAdContainer.style.display = 'block';
+      
+      const adIns = mobileAdContainer.querySelector('.adsbygoogle');
+      if (!adIns || adIns.classList.contains('adsbygoogle-noablate')) return;
+
+      // 等待容器完全渲染
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          try {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            mobileAdInitialized = true;
+            console.log('Mobile ad initialized successfully');
+          } catch (e) {
+            console.error('Mobile ad push error:', e);
+            mobileAdInitialized = false;
+          }
+        });
+      });
+    }
+
+    // 等待頁面完全載入
+    function waitForPageLoad() {
+      if (document.readyState === 'complete') {
+        setTimeout(initAds, 1000);
+      } else {
+        window.addEventListener('load', () => {
+          setTimeout(initAds, 1000);
+        });
       }
     }
-    window.addEventListener('DOMContentLoaded', function() {
-      showAdsIfVisible('adLeft');
-      showAdsIfVisible('adRight');
+
+    // 檢查 AdSense 是否已載入
+    function checkAdSense() {
+      if (typeof adsbygoogle !== 'undefined') {
+        waitForPageLoad();
+      } else {
+        // 等待 AdSense 腳本載入
+        const script = document.querySelector('script[src*="adsbygoogle.js"]');
+        if (script) {
+          script.addEventListener('load', () => {
+            setTimeout(waitForPageLoad, 500);
+          });
+        } else {
+          // 如果找不到腳本，等待一段時間後重試
+          setTimeout(checkAdSense, 100);
+        }
+      }
+    }
+
+    // 開始初始化流程
+    checkAdSense();
+
+    // 視窗大小變化處理
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
+        
+        if (window.innerWidth < 1200) {
+          if (mobileAdContainer && !mobileAdInitialized) {
+            mobileAdContainer.style.display = 'block';
+            setTimeout(initMobileAd, 100);
+          }
+        } else {
+          if (mobileAdContainer) {
+            mobileAdContainer.style.display = 'none';
+            mobileAdInitialized = false;
+          }
+        }
+      }, 300);
     });
 
     // mobile menu 展開/收合

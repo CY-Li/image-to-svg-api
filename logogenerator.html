@@ -620,9 +620,29 @@
             padding-left: 16px;
             padding-right: 16px;
         }
-        .mobile-bottom-ad { display: none; }
+        .mobile-bottom-ad { 
+            display: none;
+            margin: 24px auto;
+            text-align: center;
+            background: transparent;
+            clear: both;
+            min-height: 250px;
+            max-width: 100%;
+            padding: 0 16px;
+            box-sizing: border-box;
+        }
+        @media (max-width: 900px) {
+            .mobile-bottom-ad { 
+                display: block;
+            }
+            .main-content {
+                margin-bottom: 280px;
+            }
+        }
         @media (min-width: 901px) {
-            .mobile-bottom-ad { display: none !important; }
+            .mobile-bottom-ad { 
+                display: none !important;
+            }
         }
         /* Mobile menu 基本樣式 */
         .mobile-menu-btn { display: none; }
@@ -720,9 +740,11 @@
     <div class="main-layout">
         <div class="adsbygoogle-left">
             <ins class="adsbygoogle"
-                style="display:inline-block; width:160px; height:600px"
+                style="display:block; width:160px; height:600px"
                 data-ad-client="ca-pub-5426289278995487"
-                data-ad-slot="5368170269"></ins>
+                data-ad-slot="5368170269"
+                data-ad-format="vertical"
+                data-full-width-responsive="false"></ins>
         </div>
         <main class="main-content py-8 mt-16">
             <header class="text-center mb-8">
@@ -784,18 +806,20 @@
         </main>
         <div class="adsbygoogle-right">
             <ins class="adsbygoogle"
-                style="display:inline-block; width:160px; height:600px"
+                style="display:block; width:160px; height:600px"
                 data-ad-client="ca-pub-5426289278995487"
-                data-ad-slot="4963446783"></ins>
+                data-ad-slot="4963446783"
+                data-ad-format="vertical"
+                data-full-width-responsive="false"></ins>
         </div>
     </div>
     <div class="mobile-bottom-ad">
         <ins class="adsbygoogle"
-            style="display:block; min-height:280px"
-            data-ad-client="ca-pub-5426289278995487"
-            data-ad-slot="9968361458"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
+             style="display:block"
+             data-ad-client="ca-pub-5426289278995487"
+             data-ad-slot="9968361458"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
     </div>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1056,51 +1080,114 @@
             }
         });
 
-        // 改進的廣告初始化邏輯
+        // 廣告初始化狀態
+        let adsInitialized = false;
+        let mobileAdInitialized = false;
+
+        // 初始化廣告
         function initAds() {
-            const sideAdContainers = document.querySelectorAll('.adsbygoogle-left, .adsbygoogle-right');
-            const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
+            if (adsInitialized) return;
             
             // 初始化側邊廣告
-            sideAdContainers.forEach(container => {
-                if (window.innerWidth >= 1200 && container.offsetWidth > 0 && container.offsetHeight > 0) {
-                    try {
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    } catch (e) {
-                        console.error('Side ad initialization error:', e);
+            if (window.innerWidth >= 1200) {
+                const sideAdContainers = document.querySelectorAll('.adsbygoogle-left, .adsbygoogle-right');
+                sideAdContainers.forEach(container => {
+                    const adIns = container.querySelector('.adsbygoogle');
+                    if (adIns && !adIns.classList.contains('adsbygoogle-noablate')) {
+                        try {
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        } catch (e) {
+                            console.error('Side ad initialization error:', e);
+                        }
                     }
-                }
-            });
+                });
+            }
             
             // 初始化移動端廣告
-            if (window.innerWidth < 1200 && mobileAdContainer && 
-                mobileAdContainer.offsetWidth > 0 && mobileAdContainer.offsetHeight > 0) {
-                try {
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (e) {
-                    console.error('Mobile ad initialization error:', e);
+            if (window.innerWidth < 1200 && !mobileAdInitialized) {
+                initMobileAd();
+            }
+            
+            adsInitialized = true;
+        }
+
+        // 初始化移動端廣告
+        function initMobileAd() {
+            const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
+            if (!mobileAdContainer || mobileAdInitialized) return;
+
+            // 確保容器可見
+            mobileAdContainer.style.display = 'block';
+            
+            const adIns = mobileAdContainer.querySelector('.adsbygoogle');
+            if (!adIns || adIns.classList.contains('adsbygoogle-noablate')) return;
+
+            // 等待容器完全渲染
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    try {
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        mobileAdInitialized = true;
+                        console.log('Mobile ad initialized successfully');
+                    } catch (e) {
+                        console.error('Mobile ad push error:', e);
+                        mobileAdInitialized = false;
+                    }
+                });
+            });
+        }
+
+        // 等待頁面完全載入
+        function waitForPageLoad() {
+            if (document.readyState === 'complete') {
+                setTimeout(initAds, 1000);
+            } else {
+                window.addEventListener('load', () => {
+                    setTimeout(initAds, 1000);
+                });
+            }
+        }
+
+        // 檢查 AdSense 是否已載入
+        function checkAdSense() {
+            if (typeof adsbygoogle !== 'undefined') {
+                waitForPageLoad();
+            } else {
+                // 等待 AdSense 腳本載入
+                const script = document.querySelector('script[src*="adsbygoogle.js"]');
+                if (script) {
+                    script.addEventListener('load', () => {
+                        setTimeout(waitForPageLoad, 500);
+                    });
+                } else {
+                    // 如果找不到腳本，等待一段時間後重試
+                    setTimeout(checkAdSense, 100);
                 }
             }
         }
 
-        // 在 DOM 和廣告腳本都加載完成後初始化
-        window.addEventListener('load', function() {
-            if (typeof adsbygoogle !== 'undefined') {
-                initAds();
-            } else {
-                // 如果 AdSense 尚未加載，等待它加載
-                const adScript = document.querySelector('script[src*="adsbygoogle"]');
-                if (adScript) {
-                    adScript.addEventListener('load', initAds);
-                }
-            }
-        });
+        // 開始初始化流程
+        checkAdSense();
 
-        // 監聽視窗大小變化，重新初始化廣告
+        // 視窗大小變化處理
         let resizeTimer;
         window.addEventListener('resize', function() {
             clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(initAds, 250);
+            resizeTimer = setTimeout(function() {
+                const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
+                
+                if (window.innerWidth < 1200) {
+                    if (mobileAdContainer && !mobileAdInitialized) {
+                        mobileAdContainer.style.display = 'block';
+                        setTimeout(initMobileAd, 100);
+                    }
+                } else {
+                    if (mobileAdContainer) {
+                        mobileAdContainer.style.display = 'none';
+                        mobileAdInitialized = false;
+                    }
+                }
+            }, 300);
         });
     </script>
 </body>
