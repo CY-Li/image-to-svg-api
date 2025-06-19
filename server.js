@@ -20,6 +20,8 @@ app.use(helmet({
         "'self'", "'unsafe-inline'",
         "cdn.tailwindcss.com", "unpkg.com", "cdn.jsdelivr.net", "fonts.googleapis.com",
         "https://pagead2.googlesyndication.com",
+        "https://www.googletagservices.com",
+        "https://securepubads.g.doubleclick.net",
         "https://ep2.adtrafficquality.google"
       ],
       styleSrc: [
@@ -33,7 +35,9 @@ app.use(helmet({
         "'self'", "data:", "blob:",
         "https://pagead2.googlesyndication.com",
         "https://googleads.g.doubleclick.net",
-        "https://tpc.googlesyndication.com"
+        "https://tpc.googlesyndication.com",
+        "https://www.googletagservices.com",
+        "https://adservice.google.com"
       ],
       connectSrc: [
         "'self'",
@@ -43,20 +47,29 @@ app.use(helmet({
         "https://googleads.g.doubleclick.net",
         "https://tpc.googlesyndication.com",
         "https://adservice.google.com",
+        "https://ep1.adtrafficquality.google",
+        "https://ep2.adtrafficquality.google",
         "https://*.google.com",
         "https://*.googlesyndication.com",
-        "https://*.doubleclick.net",
-        "https://ep1.adtrafficquality.google"
+        "https://*.doubleclick.net"
       ],
       frameSrc: [
         "'self'",
         "https://googleads.g.doubleclick.net",
-        "https://tpc.googlesyndication.com"
+        "https://tpc.googlesyndication.com",
+        "https://www.google.com",
+        "https://ep2.adtrafficquality.google",
+        "https://adservice.google.com",
+        "https://*.googlesyndication.com"
       ],
       'fenced-frame-src': [
         "'self'",
         "https://googleads.g.doubleclick.net",
-        "https://tpc.googlesyndication.com"
+        "https://tpc.googlesyndication.com",
+        "https://www.google.com",
+        "https://ep2.adtrafficquality.google",
+        "https://adservice.google.com",
+        "https://*.googlesyndication.com"
       ]
     }
   }
