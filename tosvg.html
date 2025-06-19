@@ -541,6 +541,29 @@
       border-radius: 0 0 8px 8px;
       background: none;
     }
+    .adsbygoogle-left {
+      position: fixed;
+      left: 0;
+      top: 120px;
+      z-index: 9999;
+      width: 160px;
+      max-width: 20vw;
+      display: block;
+    }
+    .adsbygoogle-right {
+      position: fixed;
+      right: 0;
+      top: 120px;
+      z-index: 9999;
+      width: 160px;
+      max-width: 20vw;
+      display: block;
+    }
+    @media (max-width: 900px) {
+      .adsbygoogle-left, .adsbygoogle-right {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -733,15 +756,43 @@
   </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5426289278995487"
   crossorigin="anonymous"></script>
-<!-- 多媒體廣告 -->
-<ins class="adsbygoogle"
-  style="display:block"
-  data-ad-client="ca-pub-5426289278995487"
-  data-ad-slot="3521861859"
-  data-ad-format="auto"
-  data-full-width-responsive="true"></ins>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+
+  <!-- Google AdSense 頁面底部廣告 -->
+  <div style="text-align:center; margin: 32px 0 0 0;">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5426289278995487"
+         data-ad-slot="1695684415"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+  <!-- 左側浮動廣告 -->
+  <div class="adsbygoogle-left">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5426289278995487"
+         data-ad-slot="8140274464"
+         data-ad-format="vertical"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+  <!-- 右側浮動廣告 -->
+  <div class="adsbygoogle-right">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5426289278995487"
+         data-ad-slot="5214728221"
+         data-ad-format="vertical"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
 </body>
 </html> 
