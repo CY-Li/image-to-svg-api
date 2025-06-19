@@ -16,11 +16,41 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "cdn.tailwindcss.com", "unpkg.com", "cdn.jsdelivr.net", "fonts.googleapis.com", "https://pagead2.googlesyndication.com"],
-      styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com", "cdn.jsdelivr.net", "unpkg.com"],
-      fontSrc: ["'self'", "fonts.gstatic.com", "cdn.jsdelivr.net", "unpkg.com"],
-      imgSrc: ["'self'", "data:", "blob:"],
-      connectSrc: ["'self'", "https://generativelanguage.googleapis.com", "https://translate.googleapis.com"]
+      scriptSrc: [
+        "'self'", "'unsafe-inline'",
+        "cdn.tailwindcss.com", "unpkg.com", "cdn.jsdelivr.net", "fonts.googleapis.com",
+        "https://pagead2.googlesyndication.com"
+      ],
+      styleSrc: [
+        "'self'", "'unsafe-inline'",
+        "fonts.googleapis.com", "cdn.jsdelivr.net", "unpkg.com"
+      ],
+      fontSrc: [
+        "'self'", "fonts.gstatic.com", "cdn.jsdelivr.net", "unpkg.com"
+      ],
+      imgSrc: [
+        "'self'", "data:", "blob:",
+        "https://pagead2.googlesyndication.com",
+        "https://googleads.g.doubleclick.net",
+        "https://tpc.googlesyndication.com"
+      ],
+      connectSrc: [
+        "'self'",
+        "https://generativelanguage.googleapis.com",
+        "https://translate.googleapis.com",
+        "https://pagead2.googlesyndication.com",
+        "https://googleads.g.doubleclick.net",
+        "https://tpc.googlesyndication.com",
+        "https://adservice.google.com",
+        "https://*.google.com",
+        "https://*.googlesyndication.com",
+        "https://*.doubleclick.net"
+      ],
+      frameSrc: [
+        "'self'",
+        "https://googleads.g.doubleclick.net",
+        "https://tpc.googlesyndication.com"
+      ]
     }
   }
 }));
