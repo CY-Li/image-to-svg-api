@@ -16,7 +16,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "cdn.tailwindcss.com", "unpkg.com", "cdn.jsdelivr.net", "fonts.googleapis.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "cdn.tailwindcss.com", "unpkg.com", "cdn.jsdelivr.net", "fonts.googleapis.com", "https://pagead2.googlesyndication.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com", "cdn.jsdelivr.net", "unpkg.com"],
       fontSrc: ["'self'", "fonts.gstatic.com", "cdn.jsdelivr.net", "unpkg.com"],
       imgSrc: ["'self'", "data:", "blob:"],
