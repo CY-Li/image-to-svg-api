@@ -566,6 +566,29 @@
         .api-key-hint a:hover {
             text-decoration: underline;
         }
+        .adsbygoogle-left {
+            position: fixed;
+            left: 0;
+            top: 120px;
+            z-index: 9999;
+            width: 160px;
+            max-width: 20vw;
+            display: block;
+        }
+        .adsbygoogle-right {
+            position: fixed;
+            right: 0;
+            top: 120px;
+            z-index: 9999;
+            width: 160px;
+            max-width: 20vw;
+            display: block;
+        }
+        @media (max-width: 900px) {
+            .adsbygoogle-left, .adsbygoogle-right {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
@@ -647,6 +670,44 @@
             </div>
         </div>
     </main>
+
+    <!-- Google AdSense 頁面底部廣告 -->
+    <div style="text-align:center; margin: 32px 0 0 0;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5426289278995487"
+           data-ad-slot="9968361458"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <!-- 左側浮動廣告 -->
+    <div class="adsbygoogle-left">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5426289278995487"
+           data-ad-slot="5368170269"
+           data-ad-format="vertical"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+    <!-- 右側浮動廣告 -->
+    <div class="adsbygoogle-right">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5426289278995487"
+           data-ad-slot="4963446783"
+           data-ad-format="vertical"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
