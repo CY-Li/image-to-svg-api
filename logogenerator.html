@@ -719,18 +719,10 @@
 
     <div class="main-layout">
         <div class="adsbygoogle-left">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5426289278995487"
-            crossorigin="anonymous"></script>
-        <!-- logogenerator_左側 -->
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-5426289278995487"
-            data-ad-slot="5368170269"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+            <ins class="adsbygoogle"
+                style="display:inline-block; width:160px; height:600px"
+                data-ad-client="ca-pub-5426289278995487"
+                data-ad-slot="5368170269"></ins>
         </div>
         <main class="main-content py-8 mt-16">
             <header class="text-center mb-8">
@@ -791,33 +783,19 @@
             </div>
         </main>
         <div class="adsbygoogle-right">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5426289278995487"
-            crossorigin="anonymous"></script>
-        <!-- logogenerator_右側 -->
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-5426289278995487"
-            data-ad-slot="4963446783"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+            <ins class="adsbygoogle"
+                style="display:inline-block; width:160px; height:600px"
+                data-ad-client="ca-pub-5426289278995487"
+                data-ad-slot="4963446783"></ins>
         </div>
     </div>
     <div class="mobile-bottom-ad">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5426289278995487"
-        crossorigin="anonymous"></script>
-    <!-- logogenerator_底部 -->
-    <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-5426289278995487"
-        data-ad-slot="9968361458"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+        <ins class="adsbygoogle"
+            style="display:block; min-height:280px"
+            data-ad-client="ca-pub-5426289278995487"
+            data-ad-slot="9968361458"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
     </div>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1078,17 +1056,51 @@
             }
         });
 
-        // 只在廣告區塊可見時才 push adsbygoogle，避免 availableWidth=0 錯誤
-        function showAdsIfVisible(id) {
-          var el = document.getElementById(id);
-          if (el && el.offsetWidth > 0 && el.offsetHeight > 0) {
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          }
+        // 改進的廣告初始化邏輯
+        function initAds() {
+            const sideAdContainers = document.querySelectorAll('.adsbygoogle-left, .adsbygoogle-right');
+            const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
+            
+            // 初始化側邊廣告
+            sideAdContainers.forEach(container => {
+                if (window.innerWidth >= 1200 && container.offsetWidth > 0 && container.offsetHeight > 0) {
+                    try {
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    } catch (e) {
+                        console.error('Side ad initialization error:', e);
+                    }
+                }
+            });
+            
+            // 初始化移動端廣告
+            if (window.innerWidth < 1200 && mobileAdContainer && 
+                mobileAdContainer.offsetWidth > 0 && mobileAdContainer.offsetHeight > 0) {
+                try {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                } catch (e) {
+                    console.error('Mobile ad initialization error:', e);
+                }
+            }
         }
-        window.addEventListener('DOMContentLoaded', function() {
-          showAdsIfVisible('adLeft');
-          showAdsIfVisible('adRight');
-          showAdsIfVisible('adBottom');
+
+        // 在 DOM 和廣告腳本都加載完成後初始化
+        window.addEventListener('load', function() {
+            if (typeof adsbygoogle !== 'undefined') {
+                initAds();
+            } else {
+                // 如果 AdSense 尚未加載，等待它加載
+                const adScript = document.querySelector('script[src*="adsbygoogle"]');
+                if (adScript) {
+                    adScript.addEventListener('load', initAds);
+                }
+            }
+        });
+
+        // 監聽視窗大小變化，重新初始化廣告
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(initAds, 250);
         });
     </script>
 </body>
