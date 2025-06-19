@@ -541,28 +541,34 @@
       border-radius: 0 0 8px 8px;
       background: none;
     }
-    .adsbygoogle-left {
+    .adsbygoogle-left, .adsbygoogle-right {
       position: fixed;
-      left: 0;
       top: 120px;
       z-index: 9999;
       width: 160px;
       max-width: 20vw;
+      min-height: 300px;
       display: block;
     }
-    .adsbygoogle-right {
-      position: fixed;
-      right: 0;
-      top: 120px;
-      z-index: 9999;
-      width: 160px;
-      max-width: 20vw;
-      display: block;
+    .adsbygoogle-left { left: 0; }
+    .adsbygoogle-right { right: 0; }
+    @media (min-width: 1200px) {
+      .main-content-padded {
+        padding-left: 180px;
+        padding-right: 180px;
+        box-sizing: border-box;
+      }
+    }
+    @media (max-width: 1200px) {
+      .adsbygoogle-left, .adsbygoogle-right { display: none !important; }
+      .main-content-padded { padding-left: 0; padding-right: 0; }
     }
     @media (max-width: 900px) {
-      .adsbygoogle-left, .adsbygoogle-right {
-        display: none !important;
-      }
+      .main-content-padded { width: 98vw !important; max-width: 100vw !important; }
+    }
+    .main-content-padded {
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
@@ -587,83 +593,86 @@
     </div>
   </header>
 
-  <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">
-    圖片轉SVG格式
-  </h1>
-  <div class="container">
-    <form id="uploadForm" aria-label="圖片轉SVG上傳表單">
-      <div class="form-group">
-        <label class="md-label" for="imageInput">選擇圖片檔案</label>
-        <input type="file" class="md-input" id="imageInput" name="file" accept="image/*" required aria-required="true" aria-label="選擇圖片檔案">
-      </div>
-      <details class="collapsible" id="paramsCollapse">
-        <summary><span class="arrow">→</span>調整影像輸出參數</summary>
-        <div class="collapsible-content">
-          <div class="form-group">
-            <label class="md-label" for="bgSensitivity">
-              去背靈敏度
-              <span class="tip" tabindex="0" data-tooltip="用途：調整背景與主體顏色差多少才算背景
-建議：30（數值越大越寬鬆，主體顏色接近背景時可調小）">!</span>
-            </label>
-            <input type="number" class="md-input" id="bgSensitivity" name="bgSensitivity" min="5" max="100" value="30">
-          </div>
-          <div class="form-group">
-            <label class="md-label" for="denoise">
-              降噪強度
-              <span class="tip" tabindex="0" data-tooltip="用途：控制降噪的強度，數值越大越平滑
-建議：5~10，過大會失去細節">!</span>
-            </label>
-            <input type="number" class="md-input" id="denoise" name="denoise" min="1" max="20" value="5">
-          </div>
-          <div class="form-group">
-            <label class="md-label" for="contrast">
-              啟用亮度/對比優化
-              <span class="tip" tabindex="0" data-tooltip="用途：讓主體更明顯
-建議：預設開啟，若圖片本身對比已佳可關閉">!</span>
-            </label>
-            <select class="md-input" id="contrast" name="contrast">
-              <option value="on" selected>開啟</option>
-              <option value="off">關閉</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="md-label" for="sharpen">
-              銳利化強度
-              <span class="tip" tabindex="0" data-tooltip="用途：讓輪廓更清楚
-建議：1.2~1.5，過大會產生雜訊">!</span>
-            </label>
-            <input type="number" class="md-input" id="sharpen" name="sharpen" min="1" max="2" step="0.1" value="1.2">
-          </div>
-          <div class="form-group">
-            <label class="md-label" for="posterize">
-              色彩簡化色階
-              <span class="tip" tabindex="0" data-tooltip="用途：控制色彩簡化的程度
-建議：64=4色，32=8色，16=16色">!</span>
-            </label>
-            <input type="number" class="md-input" id="posterize" name="posterize" min="2" max="128" step="1" value="64">
-          </div>
-          <div class="form-group">
-            <label class="md-label" for="threshold">
-              二值化閾值
-              <span class="tip" tabindex="0" data-tooltip="用途：自動/手動指定二值化的臨界值
-建議：留空自動，或0~255">!</span>
-            </label>
-            <input type="number" class="md-input" id="threshold" name="threshold" min="0" max="255" placeholder="自動">
-          </div>
-          <div class="form-group">
-            <label class="md-label" for="svgColor">
-              主體顏色
-              <span class="tip" tabindex="0" data-tooltip="用途：設定SVG主體顏色
-建議：#000000（黑色）或自訂">!</span>
-            </label>
-            <input type="color" class="md-input" id="svgColor" name="svgColor" value="#000000">
-          </div>
+  <main class="main-content-padded mx-auto py-8 mt-16" style="width:70vw;max-width:1000px;min-width:320px;">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">
+      圖片轉SVG格式
+    </h1>
+    <div class="container">
+      <form id="uploadForm" aria-label="圖片轉SVG上傳表單">
+        <div class="form-group">
+          <label class="md-label" for="imageInput">選擇圖片檔案</label>
+          <input type="file" class="md-input" id="imageInput" name="file" accept="image/*" required aria-required="true" aria-label="選擇圖片檔案">
         </div>
-      </details>
-      <button type="submit" class="md-btn" aria-label="上傳並轉換"><span class="material-symbols-outlined">upload</span> 上傳並轉換</button>
-    </form>
-    <div class="result" id="result" aria-live="polite"></div>
-  </div>
+        <details class="collapsible" id="paramsCollapse">
+          <summary><span class="arrow">→</span>調整影像輸出參數</summary>
+          <div class="collapsible-content">
+            <div class="form-group">
+              <label class="md-label" for="bgSensitivity">
+                去背靈敏度
+                <span class="tip" tabindex="0" data-tooltip="用途：調整背景與主體顏色差多少才算背景
+建議：30（數值越大越寬鬆，主體顏色接近背景時可調小）">!</span>
+              </label>
+              <input type="number" class="md-input" id="bgSensitivity" name="bgSensitivity" min="5" max="100" value="30">
+            </div>
+            <div class="form-group">
+              <label class="md-label" for="denoise">
+                降噪強度
+                <span class="tip" tabindex="0" data-tooltip="用途：控制降噪的強度，數值越大越平滑
+建議：5~10，過大會失去細節">!</span>
+              </label>
+              <input type="number" class="md-input" id="denoise" name="denoise" min="1" max="20" value="5">
+            </div>
+            <div class="form-group">
+              <label class="md-label" for="contrast">
+                啟用亮度/對比優化
+                <span class="tip" tabindex="0" data-tooltip="用途：讓主體更明顯
+建議：預設開啟，若圖片本身對比已佳可關閉">!</span>
+              </label>
+              <select class="md-input" id="contrast" name="contrast">
+                <option value="on" selected>開啟</option>
+                <option value="off">關閉</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="md-label" for="sharpen">
+                銳利化強度
+                <span class="tip" tabindex="0" data-tooltip="用途：讓輪廓更清楚
+建議：1.2~1.5，過大會產生雜訊">!</span>
+              </label>
+              <input type="number" class="md-input" id="sharpen" name="sharpen" min="1" max="2" step="0.1" value="1.2">
+            </div>
+            <div class="form-group">
+              <label class="md-label" for="posterize">
+                色彩簡化色階
+                <span class="tip" tabindex="0" data-tooltip="用途：控制色彩簡化的程度
+建議：64=4色，32=8色，16=16色">!</span>
+              </label>
+              <input type="number" class="md-input" id="posterize" name="posterize" min="2" max="128" step="1" value="64">
+            </div>
+            <div class="form-group">
+              <label class="md-label" for="threshold">
+                二值化閾值
+                <span class="tip" tabindex="0" data-tooltip="用途：自動/手動指定二值化的臨界值
+建議：留空自動，或0~255">!</span>
+              </label>
+              <input type="number" class="md-input" id="threshold" name="threshold" min="0" max="255" placeholder="自動">
+            </div>
+            <div class="form-group">
+              <label class="md-label" for="svgColor">
+                主體顏色
+                <span class="tip" tabindex="0" data-tooltip="用途：設定SVG主體顏色
+建議：#000000（黑色）或自訂">!</span>
+              </label>
+              <input type="color" class="md-input" id="svgColor" name="svgColor" value="#000000">
+            </div>
+          </div>
+        </details>
+        <button type="submit" class="md-btn" aria-label="上傳並轉換"><span class="material-symbols-outlined">upload</span> 上傳並轉換</button>
+      </form>
+      <div class="result" id="result" aria-live="polite"></div>
+    </div>
+  </main>
+
   <script>
     const form = document.getElementById('uploadForm');
     const resultDiv = document.getElementById('result');
@@ -758,7 +767,7 @@
   crossorigin="anonymous"></script>
 
   <!-- Google AdSense 頁面底部廣告 -->
-  <div style="text-align:center; margin: 32px 0 0 0;">
+  <div style="text-align:center; margin: 32px 0 0 0; min-height:300px;">
     <ins class="adsbygoogle"
          style="display:block;min-width:160px;min-height:300px"
          data-ad-client="ca-pub-5426289278995487"
