@@ -44,9 +44,15 @@ app.use(helmet({
         "https://adservice.google.com",
         "https://*.google.com",
         "https://*.googlesyndication.com",
-        "https://*.doubleclick.net"
+        "https://*.doubleclick.net",
+        "https://ep1.adtrafficquality.google"
       ],
       frameSrc: [
+        "'self'",
+        "https://googleads.g.doubleclick.net",
+        "https://tpc.googlesyndication.com"
+      ],
+      'fenced-frame-src': [
         "'self'",
         "https://googleads.g.doubleclick.net",
         "https://tpc.googlesyndication.com"
