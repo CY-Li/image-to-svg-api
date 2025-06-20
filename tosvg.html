@@ -392,14 +392,14 @@
       .container {
         width: 100% !important;
         max-width: 100vw !important;
-        padding: 24px 8px 16px 8px !important;
+        padding: 24px 16px 16px 16px !important;
       }
     }
     @media (max-width: 500px) {
       .container {
         width: 100% !important;
         max-width: 100vw !important;
-        padding: 12px 2vw !important;
+        padding: 12px 12px !important;
       }
     }
     .md-icon {
@@ -500,95 +500,128 @@
       border-radius: 0 0 8px 8px;
       background: none;
     }
-    .adsbygoogle-left, .adsbygoogle-right {
-      position: fixed;
-      top: 120px;
-      z-index: 9999;
-      width: 160px;
-      max-width: 20vw;
-      min-height: 300px;
-      display: block;
-    }
-    .adsbygoogle-left { left: 0; }
-    .adsbygoogle-right { right: 0; }
-    @media (min-width: 1200px) {
-      .main-content-padded {
-        padding-left: 180px;
-        padding-right: 180px;
-        box-sizing: border-box;
-      }
-    }
-    @media (max-width: 1200px) {
-      .adsbygoogle-left, .adsbygoogle-right { display: none !important; }
-      .main-content-padded { padding-left: 0; padding-right: 0; }
-    }
-    @media (max-width: 900px) {
-      .main-content-padded { width: 98vw !important; max-width: 100vw !important; }
-    }
-    .main-content-padded {
-      margin-left: auto;
-      margin-right: auto;
-    }
+
+    /* ====== 新的布局系統 ====== */
     .main-layout {
       display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: flex-start;
-      width: 100vw;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-top: 80px;
       box-sizing: border-box;
     }
-    .adsbygoogle-left, .adsbygoogle-right {
+
+    /* 側邊廣告容器 */
+    .side-ad-container {
       width: 160px;
       min-width: 160px;
-      max-width: 20vw;
-      margin-top: 120px;
-      display: block;
+      flex-shrink: 0;
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+      margin-top: 20px;
     }
-    .main-content-custom {
-      flex: 1 1 0%;
-      margin-left: 32px;
-      margin-right: 32px;
+
+    .side-ad-left {
+      margin-right: 20px;
+    }
+
+    .side-ad-right {
+      margin-left: 20px;
+    }
+
+    /* 主內容區域 */
+    .main-content {
+      flex: 1;
       min-width: 0;
       max-width: 1000px;
-      box-sizing: border-box;
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-    @media (max-width: 1200px) {
-      .adsbygoogle-left, .adsbygoogle-right { display: none !important; }
-      .main-content-custom { margin-left: 0; margin-right: 0; }
-    }
-    @media (max-width: 900px) {
-      .main-layout { display: block; }
-      .adsbygoogle-left, .adsbygoogle-right { display: none !important; }
-      .main-content-custom { width: 100%; padding-left: 8px; padding-right: 8px; box-sizing: border-box; margin-left: 0; margin-right: 0; }
-    }
-    .mobile-menu-btn, #mobileMenu { display: none; }
-    /* 移動端廣告樣式 */
-    .mobile-bottom-ad { 
-      display: none;
-      margin: 24px auto;
-      text-align: center;
-      background: transparent;
-      clear: both;
-      min-height: 250px;
-      max-width: 100%;
-      padding: 0 16px;
+      margin: 0 auto;
+      padding: 0 24px;
       box-sizing: border-box;
     }
 
-    @media (max-width: 900px) {
-      .mobile-bottom-ad { 
+    /* 中間廣告容器 */
+    .center-ad-container {
+      width: 100%;
+      max-width: 728px;
+      margin: 32px auto;
+      text-align: center;
+      min-height: 90px;
+    }
+
+    /* 移動端廣告容器 */
+    .mobile-ad-container {
+      display: none;
+      width: 100%;
+      margin: 32px auto;
+      text-align: center;
+      min-height: 250px;
+    }
+
+    /* 響應式設計 */
+    @media (max-width: 1200px) {
+      .main-layout {
+        flex-direction: column;
+        padding-top: 80px;
+      }
+      
+      .side-ad-container {
+        display: none;
+      }
+      
+      .main-content {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+      }
+      
+      .mobile-ad-container {
         display: block;
       }
-      .main-content-custom {
-        margin-bottom: 280px;
+    }
+
+    @media (max-width: 900px) {
+      .main-content {
+        padding: 0 16px;
+      }
+      
+      .center-ad-container {
+        margin: 24px auto;
+      }
+      
+      .mobile-ad-container {
+        margin: 24px auto;
       }
     }
 
-    @media (min-width: 901px) {
-      .mobile-bottom-ad { 
-        display: none !important;
+    @media (max-width: 500px) {
+      .main-content {
+        padding: 0 12px;
+      }
+      
+      .center-ad-container {
+        margin: 16px auto;
+      }
+      
+      .mobile-ad-container {
+        margin: 16px auto;
+      }
+    }
+
+    .mobile-menu-btn, #mobileMenu { display: none; }
+    
+    /* 移動端菜單按鈕樣式 */
+    @media (max-width: 640px) {
+      .mobile-menu-btn {
+        display: flex !important;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: #4b5563;
+        padding: 0 8px;
+        cursor: pointer;
+        align-items: center;
       }
     }
   </style>
@@ -629,7 +662,7 @@
   </header>
 
   <div class="main-layout">
-    <div class="adsbygoogle-left">
+    <div class="side-ad-container side-ad-left">
       <ins class="adsbygoogle" id="adLeft"
            style="display:block; width:160px; height:600px"
            data-ad-client="ca-pub-5426289278995487"
@@ -637,8 +670,8 @@
            data-ad-format="vertical"
            data-full-width-responsive="false"></ins>
     </div>
-    <main class="main-content-padded main-content-custom mx-auto py-8 mt-16">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" style="margin-bottom: 48px;">
+    <main class="main-content">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" style="margin-bottom: 48px; margin-top: 24px;">
         圖片轉SVG格式
       </h1>
       <div class="container">
@@ -715,6 +748,16 @@
         <div class="result" id="result" aria-live="polite"></div>
       </div>
 
+      <!-- 中間廣告區塊 -->
+      <div class="center-ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5426289278995487"
+             data-ad-slot="4157647487"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+      </div>
+
       <!-- 添加使用說明 -->
       <div class="content-section mt-8">
         <h2 class="text-2xl font-semibold text-gray-700 mb-4">使用說明</h2>
@@ -729,7 +772,7 @@
       </div>
 
       <!-- 添加常見問題 -->
-      <div class="content-section mt-8">
+      <div class="content-section mt-8" style="margin-bottom: 48px;">
         <h2 class="text-2xl font-semibold text-gray-700 mb-4">常見問題</h2>
         <div class="space-y-4">
           <div class="bg-white border border-gray-200 rounded-lg p-4">
@@ -747,7 +790,7 @@
         </div>
       </div>
     </main>
-    <div class="adsbygoogle-right">
+    <div class="side-ad-container side-ad-right">
       <ins class="adsbygoogle" id="adRight"
            style="display:block; width:160px; height:600px"
            data-ad-client="ca-pub-5426289278995487"
@@ -758,7 +801,7 @@
   </div>
 
   <!-- 移動端底部廣告 -->
-  <div class="mobile-bottom-ad">
+  <div class="mobile-ad-container">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-5426289278995487"
@@ -864,7 +907,7 @@
 
     // 檢查內容是否已載入
     function checkContentLoaded() {
-      const mainContent = document.querySelector('.main-content-custom');
+      const mainContent = document.querySelector('.main-content');
       if (mainContent && mainContent.offsetHeight > 0) {
         contentLoaded = true;
         return true;
@@ -878,7 +921,7 @@
       
       // 初始化側邊廣告
       if (window.innerWidth >= 1200) {
-        const sideAdContainers = document.querySelectorAll('.adsbygoogle-left, .adsbygoogle-right');
+        const sideAdContainers = document.querySelectorAll('.side-ad-container');
         sideAdContainers.forEach(container => {
           const adIns = container.querySelector('.adsbygoogle');
           if (adIns && !adIns.classList.contains('adsbygoogle-noablate')) {
@@ -891,6 +934,19 @@
         });
       }
       
+      // 初始化中間廣告
+      const centerAdContainer = document.querySelector('.center-ad-container');
+      if (centerAdContainer) {
+        const adIns = centerAdContainer.querySelector('.adsbygoogle');
+        if (adIns && !adIns.classList.contains('adsbygoogle-noablate')) {
+          try {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          } catch (e) {
+            console.error('Center ad initialization error:', e);
+          }
+        }
+      }
+      
       // 初始化移動端廣告
       if (window.innerWidth < 1200 && !mobileAdInitialized) {
         initMobileAd();
@@ -901,7 +957,7 @@
 
     // 初始化移動端廣告
     function initMobileAd() {
-      const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
+      const mobileAdContainer = document.querySelector('.mobile-ad-container');
       if (!mobileAdContainer || mobileAdInitialized || !contentLoaded) return;
 
       // 確保容器可見
@@ -1001,7 +1057,7 @@
     window.addEventListener('resize', function() {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function() {
-        const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
+        const mobileAdContainer = document.querySelector('.mobile-ad-container');
         
         if (window.innerWidth < 1200) {
           if (mobileAdContainer && !mobileAdInitialized && contentLoaded) {
