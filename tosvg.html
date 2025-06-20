@@ -714,6 +714,38 @@
         </form>
         <div class="result" id="result" aria-live="polite"></div>
       </div>
+
+      <!-- 添加使用說明 -->
+      <div class="content-section mt-8">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">使用說明</h2>
+        <div class="bg-gray-50 p-6 rounded-lg">
+          <ol class="list-decimal list-inside space-y-2 text-gray-600">
+            <li>選擇您要轉換的圖片檔案（支援 JPG、PNG、BMP、GIF 格式）</li>
+            <li>根據需要調整轉換參數，或使用預設設定</li>
+            <li>點擊「上傳並轉換」按鈕開始處理</li>
+            <li>轉換完成後，SVG 檔案將自動下載到您的裝置</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 添加常見問題 -->
+      <div class="content-section mt-8">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">常見問題</h2>
+        <div class="space-y-4">
+          <div class="bg-white border border-gray-200 rounded-lg p-4">
+            <h3 class="font-semibold text-gray-800 mb-2">什麼是 SVG 格式？</h3>
+            <p class="text-gray-600">SVG（Scalable Vector Graphics）是一種基於 XML 的向量圖形格式，具有可縮放、檔案小、清晰度高等優點。</p>
+          </div>
+          <div class="bg-white border border-gray-200 rounded-lg p-4">
+            <h3 class="font-semibold text-gray-800 mb-2">轉換需要多長時間？</h3>
+            <p class="text-gray-600">轉換時間取決於圖片大小和複雜度，通常幾秒到幾分鐘內完成。</p>
+          </div>
+          <div class="bg-white border border-gray-200 rounded-lg p-4">
+            <h3 class="font-semibold text-gray-800 mb-2">支援哪些圖片格式？</h3>
+            <p class="text-gray-600">支援 JPG、PNG、BMP、GIF 等常見圖片格式，建議使用高品質的圖片以獲得最佳轉換效果。</p>
+          </div>
+        </div>
+      </div>
     </main>
     <div class="adsbygoogle-right">
       <ins class="adsbygoogle" id="adRight"
@@ -828,10 +860,21 @@
     // 廣告初始化狀態
     let adsInitialized = false;
     let mobileAdInitialized = false;
+    let contentLoaded = false;
+
+    // 檢查內容是否已載入
+    function checkContentLoaded() {
+      const mainContent = document.querySelector('.main-content-custom');
+      if (mainContent && mainContent.offsetHeight > 0) {
+        contentLoaded = true;
+        return true;
+      }
+      return false;
+    }
 
     // 初始化廣告
     function initAds() {
-      if (adsInitialized) return;
+      if (adsInitialized || !contentLoaded) return;
       
       // 初始化側邊廣告
       if (window.innerWidth >= 1200) {
@@ -859,7 +902,7 @@
     // 初始化移動端廣告
     function initMobileAd() {
       const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
-      if (!mobileAdContainer || mobileAdInitialized) return;
+      if (!mobileAdContainer || mobileAdInitialized || !contentLoaded) return;
 
       // 確保容器可見
       mobileAdContainer.style.display = 'block';
@@ -885,10 +928,49 @@
     // 等待頁面完全載入
     function waitForPageLoad() {
       if (document.readyState === 'complete') {
-        setTimeout(initAds, 1000);
+        // 確保內容已載入
+        setTimeout(() => {
+          if (checkContentLoaded()) {
+            setTimeout(initAds, 1000);
+          } else {
+            // 如果內容還沒載入，繼續檢查
+            const contentCheckInterval = setInterval(() => {
+              if (checkContentLoaded()) {
+                clearInterval(contentCheckInterval);
+                setTimeout(initAds, 1000);
+              }
+            }, 100);
+            
+            // 設置超時
+            setTimeout(() => {
+              clearInterval(contentCheckInterval);
+              if (checkContentLoaded()) {
+                initAds();
+              }
+            }, 5000);
+          }
+        }, 1000);
       } else {
         window.addEventListener('load', () => {
-          setTimeout(initAds, 1000);
+          setTimeout(() => {
+            if (checkContentLoaded()) {
+              setTimeout(initAds, 1000);
+            } else {
+              const contentCheckInterval = setInterval(() => {
+                if (checkContentLoaded()) {
+                  clearInterval(contentCheckInterval);
+                  setTimeout(initAds, 1000);
+                }
+              }, 100);
+              
+              setTimeout(() => {
+                clearInterval(contentCheckInterval);
+                if (checkContentLoaded()) {
+                  initAds();
+                }
+              }, 5000);
+            }
+          }, 1000);
         });
       }
     }
@@ -922,7 +1004,7 @@
         const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
         
         if (window.innerWidth < 1200) {
-          if (mobileAdContainer && !mobileAdInitialized) {
+          if (mobileAdContainer && !mobileAdInitialized && contentLoaded) {
             mobileAdContainer.style.display = 'block';
             setTimeout(initMobileAd, 100);
           }
