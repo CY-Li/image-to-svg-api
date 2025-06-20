@@ -40,8 +40,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5426289278995487"
-     crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
@@ -738,14 +736,6 @@
     </header>
 
     <div class="main-layout">
-        <div class="adsbygoogle-left">
-            <ins class="adsbygoogle"
-                style="display:block; width:160px; height:600px"
-                data-ad-client="ca-pub-5426289278995487"
-                data-ad-slot="5368170269"
-                data-ad-format="vertical"
-                data-full-width-responsive="false"></ins>
-        </div>
         <main class="main-content py-8 mt-16">
             <header class="text-center mb-8">
                 <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white">AI Logo 產生器</h1>
@@ -804,6 +794,16 @@
                 </div>
             </div>
 
+            <!-- Google 廣告區塊 -->
+            <div class="center-ad-container" style="width:100%;max-width:728px;margin:32px auto;text-align:center;min-height:90px;">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-5426289278995487"
+                     data-ad-slot="5815996476"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+            </div>
+
             <!-- 添加使用說明 -->
             <div class="content-section mt-8">
                 <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">使用說明</h2>
@@ -838,22 +838,6 @@
                 </div>
             </div>
         </main>
-        <div class="adsbygoogle-right">
-            <ins class="adsbygoogle"
-                style="display:block; width:160px; height:600px"
-                data-ad-client="ca-pub-5426289278995487"
-                data-ad-slot="4963446783"
-                data-ad-format="vertical"
-                data-full-width-responsive="false"></ins>
-        </div>
-    </div>
-    <div class="mobile-bottom-ad">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-5426289278995487"
-             data-ad-slot="9968361458"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
     </div>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1113,167 +1097,9 @@
                 });
             }
         });
-
-        // 廣告初始化狀態
-        let adsInitialized = false;
-        let mobileAdInitialized = false;
-        let contentLoaded = false;
-
-        // 檢查內容是否已載入
-        function checkContentLoaded() {
-            const mainContent = document.querySelector('.main-content');
-            if (mainContent && mainContent.offsetHeight > 0) {
-                contentLoaded = true;
-                return true;
-            }
-            return false;
-        }
-
-        // 初始化廣告
-        function initAds() {
-            if (adsInitialized || !contentLoaded) return;
-            
-            // 初始化側邊廣告
-            if (window.innerWidth >= 1200) {
-                const sideAdContainers = document.querySelectorAll('.adsbygoogle-left, .adsbygoogle-right');
-                sideAdContainers.forEach(container => {
-                    const adIns = container.querySelector('.adsbygoogle');
-                    if (adIns && !adIns.classList.contains('adsbygoogle-noablate')) {
-                        try {
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        } catch (e) {
-                            console.error('Side ad initialization error:', e);
-                        }
-                    }
-                });
-            }
-            
-            // 初始化移動端廣告
-            if (window.innerWidth < 1200 && !mobileAdInitialized) {
-                initMobileAd();
-            }
-            
-            adsInitialized = true;
-        }
-
-        // 初始化移動端廣告
-        function initMobileAd() {
-            const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
-            if (!mobileAdContainer || mobileAdInitialized || !contentLoaded) return;
-
-            // 確保容器可見
-            mobileAdContainer.style.display = 'block';
-            
-            const adIns = mobileAdContainer.querySelector('.adsbygoogle');
-            if (!adIns || adIns.classList.contains('adsbygoogle-noablate')) return;
-
-            // 等待容器完全渲染
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    try {
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                        mobileAdInitialized = true;
-                        console.log('Mobile ad initialized successfully');
-                    } catch (e) {
-                        console.error('Mobile ad push error:', e);
-                        mobileAdInitialized = false;
-                    }
-                });
-            });
-        }
-
-        // 等待頁面完全載入
-        function waitForPageLoad() {
-            if (document.readyState === 'complete') {
-                // 確保內容已載入
-                setTimeout(() => {
-                    if (checkContentLoaded()) {
-                        setTimeout(initAds, 1000);
-                    } else {
-                        // 如果內容還沒載入，繼續檢查
-                        const contentCheckInterval = setInterval(() => {
-                            if (checkContentLoaded()) {
-                                clearInterval(contentCheckInterval);
-                                setTimeout(initAds, 1000);
-                            }
-                        }, 100);
-                        
-                        // 設置超時
-                        setTimeout(() => {
-                            clearInterval(contentCheckInterval);
-                            if (checkContentLoaded()) {
-                                initAds();
-                            }
-                        }, 5000);
-                    }
-                }, 1000);
-            } else {
-                window.addEventListener('load', () => {
-                    setTimeout(() => {
-                        if (checkContentLoaded()) {
-                            setTimeout(initAds, 1000);
-                        } else {
-                            const contentCheckInterval = setInterval(() => {
-                                if (checkContentLoaded()) {
-                                    clearInterval(contentCheckInterval);
-                                    setTimeout(initAds, 1000);
-                                }
-                            }, 100);
-                            
-                            setTimeout(() => {
-                                clearInterval(contentCheckInterval);
-                                if (checkContentLoaded()) {
-                                    initAds();
-                                }
-                            }, 5000);
-                        }
-                    }, 1000);
-                });
-            }
-        }
-
-        // 檢查 AdSense 是否已載入
-        function checkAdSense() {
-            if (typeof adsbygoogle !== 'undefined') {
-                waitForPageLoad();
-            } else {
-                // 等待 AdSense 腳本載入
-                const script = document.querySelector('script[src*="adsbygoogle.js"]');
-                if (script) {
-                    script.addEventListener('load', () => {
-                        setTimeout(waitForPageLoad, 500);
-                    });
-                } else {
-                    // 如果找不到腳本，等待一段時間後重試
-                    setTimeout(checkAdSense, 100);
-                }
-            }
-        }
-
-        // 開始初始化流程
-        checkAdSense();
-
-        // 視窗大小變化處理
-        let resizeTimer;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function() {
-                const mobileAdContainer = document.querySelector('.mobile-bottom-ad');
-                
-                if (window.innerWidth < 1200) {
-                    if (mobileAdContainer && !mobileAdInitialized && contentLoaded) {
-                        mobileAdContainer.style.display = 'block';
-                        setTimeout(initMobileAd, 100);
-                    }
-                } else {
-                    if (mobileAdContainer) {
-                        mobileAdContainer.style.display = 'none';
-                        mobileAdInitialized = false;
-                    }
-                }
-            }, 300);
-        });
     </script>
+    <!-- Google AdSense 腳本（如未加過） -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5426289278995487" crossorigin="anonymous"></script>
 </body>
 </html>
 
