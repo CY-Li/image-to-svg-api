@@ -7,8 +7,10 @@
   <meta name="keywords" content="圖片轉SVG, image to svg, 線上向量化, logo svg, 免費工具, 向量圖, 圖片轉換, 圖片去背, svg 產生器, image vectorizer">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="index, follow">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.googletagservices.com https://adservice.google.com https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.googletagservices.com https://adservice.google.com https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google; frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com https://adservice.google.com; fenced-frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com https://ep2.adtrafficquality.google https://adservice.google.com https://*.googlesyndication.com; connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.googletagservices.com https://adservice.google.com https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google;">
+  <!-- 移除CSP設定以避免Google AdSense的內部錯誤 -->
+  <!-- <meta http-equiv="Content-Security-Policy" content="..."> -->
   <link rel="canonical" href="https://doc-converter.top/tosvg.html">
+  <!-- <link rel="icon" href="./favicon.ico" type="image/x-icon"> -->
   <meta property="og:title" content="免費圖片轉SVG線上工具 | Free Image to SVG" />
   <meta property="og:description" content="免費線上圖片轉SVG工具，支援JPG、PNG、LOGO、插圖一鍵向量化，快速下載SVG檔案。" />
   <meta property="og:type" content="website" />
@@ -28,7 +30,6 @@
     "url": "https://doc-converter.top/tosvg.html"
   }
   </script>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <!-- Google Fonts & Material Symbols -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -663,14 +664,15 @@
   </header>
 
   <div class="main-layout">
-    <div class="side-ad-container side-ad-left">
+    <!-- 隱藏左側廣告 -->
+    <!-- <div class="side-ad-container side-ad-left">
       <ins class="adsbygoogle" id="adLeft"
            style="display:block; width:160px; height:600px"
            data-ad-client="ca-pub-5426289278995487"
            data-ad-slot="8140274464"
            data-ad-format="vertical"
            data-full-width-responsive="false"></ins>
-    </div>
+    </div> -->
     <main class="main-content">
       <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2" style="margin-bottom: 48px; margin-top: 24px;">
         圖片轉SVG格式
@@ -791,25 +793,25 @@
         </div>
       </div>
     </main>
-    <div class="side-ad-container side-ad-right">
+    <!-- <div class="side-ad-container side-ad-right">
       <ins class="adsbygoogle" id="adRight"
            style="display:block; width:160px; height:600px"
            data-ad-client="ca-pub-5426289278995487"
            data-ad-slot="5214728221"
            data-ad-format="vertical"
            data-full-width-responsive="false"></ins>
-    </div>
+    </div> -->
   </div>
 
-  <!-- 移動端底部廣告 -->
-  <div class="mobile-ad-container">
+  <!-- 隱藏移動端底部廣告 -->
+  <!-- <div class="mobile-ad-container">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-5426289278995487"
          data-ad-slot="9968361458"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-  </div>
+  </div> -->
 
   <script>
     const form = document.getElementById('uploadForm');
