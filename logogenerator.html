@@ -565,34 +565,7 @@
         .api-key-hint a:hover {
             text-decoration: underline;
         }
-        .adsbygoogle-left, .adsbygoogle-right {
-            position: fixed;
-            top: 120px;
-            z-index: 9999;
-            width: 160px;
-            max-width: 20vw;
-            min-height: 300px;
-            display: block;
-        }
-        .adsbygoogle-left { left: 0; }
-        .adsbygoogle-right { right: 0; }
-        @media (min-width: 1200px) {
-            .main-content-padded {
-                padding-left: 180px;
-                padding-right: 180px;
-                box-sizing: border-box;
-            }
-        }
-        @media (max-width: 1200px) {
-            .adsbygoogle-left, .adsbygoogle-right { display: none !important; }
-            .main-content-padded { padding-left: 0; padding-right: 0; }
-        }
-        @media (max-width: 900px) {
-            .main-layout { display: block; }
-            .adsbygoogle-left, .adsbygoogle-right { display: none !important; }
-            .main-content { width: 100%; padding-left: 8px; padding-right: 8px; box-sizing: border-box; margin-left: 0; margin-right: 0; }
-            .mobile-bottom-ad { display: block; margin: 24px 0 0 0; text-align: center; min-height: 120px; }
-        }
+        
         .main-layout {
             display: flex;
             flex-direction: row;
@@ -699,7 +672,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+<body class="bg-gray-100 text-gray-800">
     <!-- Header -->
     <header class="header">
         <div class="header-content">
@@ -737,12 +710,12 @@
     <div class="main-layout">
         <main class="main-content py-8 mt-16">
             <header class="text-center mb-8">
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white">AI Logo 產生器</h1>
-                <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">輸入您的想法，讓 AI 為您創造獨一無二的 Logo</p>
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800">AI Logo 產生器</h1>
+                <p class="text-lg text-gray-600 mt-2">輸入您的想法，讓 AI 為您創造獨一無二的 Logo</p>
             </header>
             <div class="flex flex-col lg:flex-row gap-0 lg:gap-8 gap-y-8 mt-8 w-full">
                 <!-- Controls Panel -->
-                <div class="flex-1 min-w-0 bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-2xl" style="box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);">
+                <div class="flex-1 min-w-0 bg-white p-6 rounded-3xl shadow-2xl" style="box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);">
                     <div class="space-y-6">
                         <div class="form-group">
                             <label for="apiKey" class="md-label">Google Gemini API Key <span class="tip" tabindex="0" data-tooltip="請輸入您的 Google Gemini API 金鑰，否則無法產生 Logo。">!</span></label>
@@ -770,9 +743,9 @@
                 </div>
 
                 <!-- Image Display -->
-                <div class="flex-[3_3_0%] min-w-0 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl flex flex-col items-center justify-center min-h-[400px] lg:min-h-full" style="box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);">
+                <div class="flex-[3_3_0%] min-w-0 bg-white p-6 rounded-2xl shadow-2xl flex flex-col items-center justify-center min-h-[400px] lg:min-h-full" style="box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);">
                     <div id="imageContainer" class="w-full h-full flex items-center justify-center">
-                        <div id="placeholder" class="text-center text-gray-400 dark:text-gray-500">
+                        <div id="placeholder" class="text-center text-gray-400">
                             <svg class="mx-auto h-20 w-20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             <p class="mt-4 text-lg">產生的 Logo 將會顯示在這裡</p>
                         </div>
@@ -793,24 +766,13 @@
                 </div>
             </div>
 
-            <!-- Google 廣告區塊 -->
-            <div class="center-ad-container" style="width:100%;max-width:728px;margin:32px auto;text-align:center;min-height:90px;">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-5426289278995487"
-                     data-ad-slot="5815996476"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                  (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
+            
 
             <!-- 添加使用說明 -->
             <div class="content-section mt-8">
-                <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">使用說明</h2>
-                <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
-                    <ol class="list-decimal list-inside space-y-2 text-gray-600 dark:text-gray-400">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">使用說明</h2>
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <ol class="list-decimal list-inside space-y-2 text-gray-600">
                         <li>首先需要取得 Google Gemini API Key（免費申請）</li>
                         <li>輸入您的品牌或公司名稱</li>
                         <li>描述您想要的 Logo 風格和特色</li>
@@ -823,19 +785,19 @@
 
             <!-- 添加常見問題 -->
             <div class="content-section mt-8">
-                <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">常見問題</h2>
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">常見問題</h2>
                 <div class="space-y-4">
-                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                        <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">如何取得 Google Gemini API Key？</h3>
-                        <p class="text-gray-600 dark:text-gray-400">前往 <a href="https://aistudio.google.com/apikey" target="_blank" class="text-blue-600 hover:underline">Google AI Studio</a> 免費申請 API Key。</p>
+                    <div class="bg-white border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">如何取得 Google Gemini API Key？</h3>
+                        <p class="text-gray-600">前往 <a href="https://aistudio.google.com/apikey" target="_blank" class="text-blue-600 hover:underline">Google AI Studio</a> 免費申請 API Key。</p>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                        <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Logo 生成需要多長時間？</h3>
-                        <p class="text-gray-600 dark:text-gray-400">通常需要 10-30 秒，具體時間取決於 AI 處理複雜度。</p>
+                    <div class="bg-white border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">Logo 生成需要多長時間？</h3>
+                        <p class="text-gray-600">通常需要 10-30 秒，具體時間取決於 AI 處理複雜度。</p>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                        <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">支援哪些輸出格式？</h3>
-                        <p class="text-gray-600 dark:text-gray-400">支援 SVG 向量格式和 PNG 圖片格式，SVG 格式可無限縮放不失真。</p>
+                    <div class="bg-white border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">支援哪些輸出格式？</h3>
+                        <p class="text-gray-600">支援 SVG 向量格式和 PNG 圖片格式，SVG 格式可無限縮放不失真。</p>
                     </div>
                 </div>
             </div>
@@ -1101,7 +1063,7 @@
         });
     </script>
     <!-- Google AdSense 腳本（如未加過） -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5426289278995487" crossorigin="anonymous"></script>
+    
 </body>
 </html>
 
