@@ -25,7 +25,9 @@ app.use(helmet({
         "https://ep2.adtrafficquality.google",
         "https://onead.onevision.com.tw",
         "https://ad-specs.guoshipartners.com",
-        "https://bcp.crwdcntrl.net"
+        "https://bcp.crwdcntrl.net",
+        "https://www.googletagmanager.com",
+        "https://connect.facebook.net"
       ],
       styleSrc: [
         "'self'", "'unsafe-inline'",
@@ -41,7 +43,11 @@ app.use(helmet({
         "https://tpc.googlesyndication.com",
         "https://www.googletagservices.com",
         "https://adservice.google.com",
-        "https://bcp.crwdcntrl.net"
+        "https://bcp.crwdcntrl.net",
+        "https://match.adsrvr.org",
+        "https://ps.eyeota.net",
+        "https://trc.taboola.com",
+        "https://cdn.onead.com.tw"
       ],
       connectSrc: [
         "'self'",
@@ -58,7 +64,13 @@ app.use(helmet({
         "https://*.doubleclick.net",
         "https://onead.onevision.com.tw",
         "https://ad-specs.guoshipartners.com",
-        "https://bcp.crwdcntrl.net"
+        "https://bcp.crwdcntrl.net",
+        "https://match.adsrvr.org",
+        "https://ps.eyeota.net",
+        "https://trc.taboola.com",
+        "https://cdn.onead.com.tw",
+        "https://www.googletagmanager.com",
+        "https://connect.facebook.net"
       ],
       frameSrc: [
         "'self'",
@@ -70,7 +82,11 @@ app.use(helmet({
         "https://*.googlesyndication.com",
         "https://onead.onevision.com.tw",
         "https://ad-specs.guoshipartners.com",
-        "https://bcp.crwdcntrl.net"
+        "https://bcp.crwdcntrl.net",
+        "https://match.adsrvr.org",
+        "https://ps.eyeota.net",
+        "https://trc.taboola.com",
+        "https://cdn.onead.com.tw"
       ],
       'fenced-frame-src': [
         "'self'",
@@ -82,7 +98,11 @@ app.use(helmet({
         "https://*.googlesyndication.com",
         "https://onead.onevision.com.tw",
         "https://ad-specs.guoshipartners.com",
-        "https://bcp.crwdcntrl.net"
+        "https://bcp.crwdcntrl.net",
+        "https://match.adsrvr.org",
+        "https://ps.eyeota.net",
+        "https://trc.taboola.com",
+        "https://cdn.onead.com.tw"
       ]
     }
   }
