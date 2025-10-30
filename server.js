@@ -21,6 +21,7 @@ app.use(helmet({
         "*.googletagmanager.com",
         "*.google-analytics.com",
         "*.google.com",
+        "*.google.com.tw",
         "*.googlesyndication.com",
         "*.doubleclick.net",
         "*.facebook.net",
@@ -31,6 +32,7 @@ app.use(helmet({
         "*.adsrvr.org",
         "*.eyeota.net",
         "*.taboola.com",
+        "*.scorecardresearch.com",
         "cdn.tailwindcss.com", "unpkg.com", "cdn.jsdelivr.net", "fonts.googleapis.com"
       ],
       styleSrc: [
@@ -43,6 +45,7 @@ app.use(helmet({
       imgSrc: [
         "'self'", "data:", "blob:",
         "*.google.com",
+        "*.google.com.tw",
         "*.googlesyndication.com",
         "*.doubleclick.net",
         "*.onead.com.tw",
@@ -50,11 +53,13 @@ app.use(helmet({
         "*.crwdcntrl.net",
         "*.adsrvr.org",
         "*.eyeota.net",
-        "*.taboola.com"
+        "*.taboola.com",
+        "*.scorecardresearch.com"
       ],
       connectSrc: [
         "'self'",
         "*.google.com",
+        "*.google.com.tw",
         "*.google-analytics.com",
         "*.googlesyndication.com",
         "*.doubleclick.net",
@@ -66,12 +71,15 @@ app.use(helmet({
         "*.eyeota.net",
         "*.taboola.com",
         "*.facebook.net",
+        "*.scorecardresearch.com",
         "https://generativelanguage.googleapis.com",
         "https://translate.googleapis.com"
       ],
       frameSrc: [
         "'self'",
         "*.google.com",
+        "*.google.com.tw",
+        "*.googletagmanager.com",
         "*.googlesyndication.com",
         "*.doubleclick.net",
         "*.onead.com.tw",
@@ -80,11 +88,13 @@ app.use(helmet({
         "*.crwdcntrl.net",
         "*.adsrvr.org",
         "*.eyeota.net",
-        "*.taboola.com"
+        "*.taboola.com",
+        "*.scorecardresearch.com"
       ],
       'fenced-frame-src': [
         "'self'",
         "*.google.com",
+        "*.google.com.tw",
         "*.googlesyndication.com",
         "*.doubleclick.net",
         "*.onead.com.tw",
@@ -93,7 +103,8 @@ app.use(helmet({
         "*.crwdcntrl.net",
         "*.adsrvr.org",
         "*.eyeota.net",
-        "*.taboola.com"
+        "*.taboola.com",
+        "*.scorecardresearch.com"
       ]
     }
   }
