@@ -22,7 +22,9 @@ app.use(helmet({
         "https://pagead2.googlesyndication.com",
         "https://www.googletagservices.com",
         "https://securepubads.g.doubleclick.net",
-        "https://ep2.adtrafficquality.google"
+        "https://ep2.adtrafficquality.google",
+        "https://onead.onevision.com.tw",
+        "https://ad-specs.guoshipartners.com"
       ],
       styleSrc: [
         "'self'", "'unsafe-inline'",

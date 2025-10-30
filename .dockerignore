@@ -7,3 +7,6 @@ npm-debug.log
 .DS_Store
 uploads/
 tmp/ 
+web-bundles/
+.bmad-core/
+.gemini/
