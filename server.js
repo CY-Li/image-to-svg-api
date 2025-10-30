@@ -53,7 +53,9 @@ app.use(helmet({
         "https://ep2.adtrafficquality.google",
         "https://*.google.com",
         "https://*.googlesyndication.com",
-        "https://*.doubleclick.net"
+        "https://*.doubleclick.net",
+        "https://onead.onevision.com.tw",
+        "https://ad-specs.guoshipartners.com"
       ],
       frameSrc: [
         "'self'",
@@ -62,7 +64,9 @@ app.use(helmet({
         "https://www.google.com",
         "https://ep2.adtrafficquality.google",
         "https://adservice.google.com",
-        "https://*.googlesyndication.com"
+        "https://*.googlesyndication.com",
+        "https://onead.onevision.com.tw",
+        "https://ad-specs.guoshipartners.com"
       ],
       'fenced-frame-src': [
         "'self'",
@@ -71,7 +75,9 @@ app.use(helmet({
         "https://www.google.com",
         "https://ep2.adtrafficquality.google",
         "https://adservice.google.com",
-        "https://*.googlesyndication.com"
+        "https://*.googlesyndication.com",
+        "https://onead.onevision.com.tw",
+        "https://ad-specs.guoshipartners.com"
       ]
     }
   }
