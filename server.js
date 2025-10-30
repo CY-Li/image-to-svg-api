@@ -24,7 +24,8 @@ app.use(helmet({
         "https://securepubads.g.doubleclick.net",
         "https://ep2.adtrafficquality.google",
         "https://onead.onevision.com.tw",
-        "https://ad-specs.guoshipartners.com"
+        "https://ad-specs.guoshipartners.com",
+        "https://bcp.crwdcntrl.net"
       ],
       styleSrc: [
         "'self'", "'unsafe-inline'",
@@ -39,7 +40,8 @@ app.use(helmet({
         "https://googleads.g.doubleclick.net",
         "https://tpc.googlesyndication.com",
         "https://www.googletagservices.com",
-        "https://adservice.google.com"
+        "https://adservice.google.com",
+        "https://bcp.crwdcntrl.net"
       ],
       connectSrc: [
         "'self'",
@@ -55,7 +57,8 @@ app.use(helmet({
         "https://*.googlesyndication.com",
         "https://*.doubleclick.net",
         "https://onead.onevision.com.tw",
-        "https://ad-specs.guoshipartners.com"
+        "https://ad-specs.guoshipartners.com",
+        "https://bcp.crwdcntrl.net"
       ],
       frameSrc: [
         "'self'",
@@ -66,7 +69,8 @@ app.use(helmet({
         "https://adservice.google.com",
         "https://*.googlesyndication.com",
         "https://onead.onevision.com.tw",
-        "https://ad-specs.guoshipartners.com"
+        "https://ad-specs.guoshipartners.com",
+        "https://bcp.crwdcntrl.net"
       ],
       'fenced-frame-src': [
         "'self'",
@@ -77,7 +81,8 @@ app.use(helmet({
         "https://adservice.google.com",
         "https://*.googlesyndication.com",
         "https://onead.onevision.com.tw",
-        "https://ad-specs.guoshipartners.com"
+        "https://ad-specs.guoshipartners.com",
+        "https://bcp.crwdcntrl.net"
       ]
     }
   }
